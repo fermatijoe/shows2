@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">फिल्म और टीवी सुझाव</string>
+    <string name="nav_fav">पसंदीदा</string>
+    <string name="nav_movies">चलचित्र</string>
+    <string name="nav_random">आकस्मिक</string>
+    <string name="nav_tv">टीवी शो</string>
+    <string name="sort_popular">लोकप्रिय द्वारा आदेश</string>
+    <string name="sort_top">सबसे अच्छा द्वारा आदेश</string>
+</resources>

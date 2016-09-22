@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Movie and Tv suggestions</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="action_settings" translatable="false">Settings</string>
+
+    <string name="nav_movies">Movies</string>
+    <string name="nav_tv">Tv shows</string>
+    <string name="nav_fav">Favorites</string>
+    <string name="nav_random">Random</string>
+
+    <string name="sort_top">Order by best</string>
+    <string name="sort_popular">Order by popular</string>
+
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9909155562202230/5941204906</string>
+
+
+</resources>

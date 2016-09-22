@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">فيلم والتلفزيون اقتراحات</string>
+    <string name="nav_fav">المفضلة</string>
+    <string name="nav_movies">أفلام</string>
+    <string name="nav_random">عرضي</string>
+    <string name="nav_tv">البرامج التلفزيونية</string>
+    <string name="sort_popular">ترتيب حسب شعبية</string>
+    <string name="sort_top">ترتيب حسب أفضل</string>
+</resources>

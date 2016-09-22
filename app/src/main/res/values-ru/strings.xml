@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Кино и ТВ предложения</string>
+    <string name="nav_fav">Избранные</string>
+    <string name="nav_movies">Кино</string>
+    <string name="nav_random">Повседневная</string>
+    <string name="nav_tv">ТВ шоу</string>
+    <string name="sort_popular">Сортировать по популярным</string>
+    <string name="sort_top">Сортировать по лучшим</string>
+</resources>

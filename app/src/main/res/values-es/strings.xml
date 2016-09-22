@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">sugerencias de cine y televisión</string>
+    <string name="nav_fav">favoritos</string>
+    <string name="nav_movies">Películas</string>
+    <string name="nav_random">Casual</string>
+    <string name="nav_tv">Programas de televisión</string>
+    <string name="sort_popular">Ordenar por populares</string>
+    <string name="sort_top">Ordenar por mejor</string>
+</resources>
