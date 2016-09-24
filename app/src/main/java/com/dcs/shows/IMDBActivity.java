@@ -23,11 +23,12 @@ import java.net.URL;
 
 public class IMDBActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = IMDBActivity.class.getSimpleName();
     public final static String EXTRA_MOVIE_ID = "com.dcs.shows.extra_movie_id";
 
 
 
-    public static Intent newIntent(Context packageContext, String id, String scopeLiteral) {
+    public static Intent newIntent(Context packageContext, String id) {
         Intent intent = new Intent(packageContext, IMDBActivity.class);
         intent.putExtra(EXTRA_MOVIE_ID, id);
         return intent;
@@ -37,7 +38,7 @@ public class IMDBActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String id = getIntent().getStringExtra(EXTRA_MOVIE_ID);
-
+        Log.v(LOG_TAG, "IMDBActivity created, movie id is: " + id);
         (new FetchIMDBTask()).execute(id);
 
 
@@ -134,9 +135,11 @@ public class IMDBActivity extends AppCompatActivity {
     }
 
     private void launchBrowser(String id){
+        Log.v(LOG_TAG, "launching browser, imdb id is: " + id);
         String trailerUrl = "http://www.imdb.com/title/" + id;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(trailerUrl));
         startActivity(intent);
+        finish();
     }
 }

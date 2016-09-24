@@ -48,7 +48,7 @@ public class DetailFragment extends Fragment {
     private Button mTrailerButton;
     private FloatingActionButton mFloatingActionButton;
     private boolean fabChecked = false;
-    private String mScope, mLanguage;
+    private String mScope, mLanguage, id;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -82,6 +82,8 @@ public class DetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         getActivity().setTitle(mShow.getTitle());
+
+        id = Integer.valueOf(mShow.getShowId()).toString();
 
         mImageViewPoster = (ImageView) rootView.findViewById(R.id.detail_image_poster);
         mImageView = (ImageView) rootView.findViewById(R.id.detail_image);
@@ -237,8 +239,13 @@ public class DetailFragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_launch:
-                String id = Integer.valueOf(mShow.getShowId()).toString();
-                startActivity(IMDBActivity.newIntent(getActivity(), id, mScope));
+
+                Log.v("IMDBActivity", "Movie id passed from detail: " + id);
+                startActivity(IMDBActivity.newIntent(getActivity(), id));
+
+                getActivity().setTitle(R.string.nav_movies);
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
                 return true;
             default:
                 break;
