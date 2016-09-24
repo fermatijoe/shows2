@@ -28,7 +28,7 @@ public class Show extends SugarRecord {
 
     public Show(JSONObject movie) throws JSONException {
         this.showId = movie.getInt("id");
-        this.title = movie.getString("original_title");
+        this.title = movie.getString("title");
         this.image = movie.getString("poster_path");
         this.image2 = movie.getString("backdrop_path");
         this.overview = movie.getString("overview");
@@ -39,7 +39,7 @@ public class Show extends SugarRecord {
 
     public Show(JSONObject movie, int notNeeded) throws JSONException {
         this.showId = movie.getInt("id");
-        this.title = movie.getString("original_name");
+        this.title = movie.getString("name");
         this.image = movie.getString("poster_path");
         this.image2 = movie.getString("backdrop_path");
         this.overview = movie.getString("overview");

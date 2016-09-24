@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.dcs.shows.utils.QueryUtils;
 
@@ -28,17 +29,12 @@ public class IMDBActivity extends AppCompatActivity {
 
 
 
-    public static Intent newIntent(Context packageContext, String id) {
-        Intent intent = new Intent(packageContext, IMDBActivity.class);
-        intent.putExtra(EXTRA_MOVIE_ID, id);
-        return intent;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String id = getIntent().getStringExtra(EXTRA_MOVIE_ID);
-        Log.v(LOG_TAG, "IMDBActivity created, movie id is: " + id);
         (new FetchIMDBTask()).execute(id);
 
 
@@ -123,23 +119,23 @@ public class IMDBActivity extends AppCompatActivity {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
             }
-
-            // This will only happen if there was an error getting or parsing the forecast.
             return null;
         }
 
         @Override
         protected void onPostExecute(String id) {
-            launchBrowser(id);
+            if (id == null) {
+                Toast.makeText(getApplicationContext(), "No IMDB page available", Toast.LENGTH_SHORT).show();
+                finish();
+            }else{
+                Intent output = new Intent();
+                output.putExtra(EXTRA_MOVIE_ID, id);
+                setResult(RESULT_OK, output);
+                finish();
+
+            }
+
         }
     }
 
-    private void launchBrowser(String id){
-        Log.v(LOG_TAG, "launching browser, imdb id is: " + id);
-        String trailerUrl = "http://www.imdb.com/title/" + id;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(trailerUrl));
-        startActivity(intent);
-        finish();
-    }
 }

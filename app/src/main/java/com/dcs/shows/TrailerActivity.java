@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dcs.shows.utils.QueryUtils;
 
@@ -40,11 +41,11 @@ public class TrailerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("TrailerActivity",  "TrailerActivity started");
         String id = getIntent().getStringExtra(EXTRA_MOVIE_ID);
         String s = getIntent().getStringExtra(EXTRA_SCOPE);
         if(s == null || id == null){
             Log.e("TrailerActivity", "null arguments, s : " + s + ", id: " + id);
+            Toast.makeText(getApplicationContext(), "No trailers available", Toast.LENGTH_SHORT).show();
         }
         (new FetchTrailersTask()).execute(id, s);
 
@@ -111,9 +112,6 @@ public class TrailerActivity extends AppCompatActivity {
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
                     buffer.append(line + "\n");
                 }
 
@@ -143,14 +141,17 @@ public class TrailerActivity extends AppCompatActivity {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
             }
-
-            // This will only happen if there was an error getting or parsing the forecast.
             return null;
         }
 
         @Override
         protected void onPostExecute(String url) {
-            launchBrowser(url);
+            if (url == null) {
+                Toast.makeText(getApplicationContext(), "No trailers available", Toast.LENGTH_SHORT).show();
+            }else {
+                launchBrowser(url);
+            }
+
         }
     }
 

@@ -75,6 +75,13 @@ public class ListFragment extends Fragment{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle(R.string.nav_movies);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
@@ -309,7 +316,7 @@ public class ListFragment extends Fragment{
             Fragment newDetail = DetailFragment.newInstance(s);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_nested, newDetail)
-                    .addToBackStack(null)
+                    .addToBackStack("detail")
                     .commit();
         }
     }

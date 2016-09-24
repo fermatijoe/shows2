@@ -125,12 +125,17 @@ public class MainActivity extends AppCompatActivity
 
 
     private void launchListFragment(int scope){
+
+        getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         Fragment newDetail = ListFragment.newInstance(scope);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)
                 .commit();
     }
     private void launchRandomFragment(){
+        getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         Fragment newDetail = RandomFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)
@@ -138,7 +143,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

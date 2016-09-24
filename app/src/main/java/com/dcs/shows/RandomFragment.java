@@ -86,6 +86,7 @@ public class RandomFragment extends Fragment {
         if(getActivity() != null && isAdded()){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_nested, newDetail) // add to back stack?
+                    .addToBackStack("detail")
                     .commit();
         }
 
@@ -132,14 +133,12 @@ public class RandomFragment extends Fragment {
                 } else if(scope.equals("tv")){
 
                     for(int i = 0; i < 20; i++){
-                        Log.v(LOG_TAG, "trying tv object at index");
                         JSONObject movie = movieArray.getJSONObject(getRandomResult());
                         Show movieModel = new Show(movie, 101010);
                         if(movieModel.getOverview().length() == 0
                                 || movieModel.getOverview().equals("null")
                                 || movieModel.getOverview().length() == 4){
                             //get another object
-                            Log.v(LOG_TAG, "object had no overview");
                             continue;
                         }else{
                             return movieModel;
@@ -171,11 +170,7 @@ public class RandomFragment extends Fragment {
             String jsonStr = null;
 
             try {
-                Log.v(LOG_TAG, "url for random: " + params[0]);
-
                 URL url = new URL(params[0]);
-
-                Log.v(LOG_TAG, "Built url: " + url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");

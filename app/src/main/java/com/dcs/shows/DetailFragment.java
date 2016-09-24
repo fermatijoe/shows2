@@ -1,8 +1,11 @@
 package com.dcs.shows;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -48,7 +51,7 @@ public class DetailFragment extends Fragment {
     private Button mTrailerButton;
     private FloatingActionButton mFloatingActionButton;
     private boolean fabChecked = false;
-    private String mScope, mLanguage, id;
+    private String mScope, mLanguage, mId;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -83,7 +86,8 @@ public class DetailFragment extends Fragment {
 
         getActivity().setTitle(mShow.getTitle());
 
-        id = Integer.valueOf(mShow.getShowId()).toString();
+        mId = Integer.valueOf(mShow.getShowId()).toString();
+
 
         mImageViewPoster = (ImageView) rootView.findViewById(R.id.detail_image_poster);
         mImageView = (ImageView) rootView.findViewById(R.id.detail_image);
@@ -233,19 +237,33 @@ public class DetailFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private void startIMDBActivity(){
+        Intent intent = new Intent(getActivity(), IMDBActivity.class);
+        intent.putExtra(IMDBActivity.EXTRA_MOVIE_ID, mId);
+        startActivityForResult(intent, 555);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 555 && resultCode == Activity.RESULT_OK && data != null) {
+            launchBrowser(data.getStringExtra(IMDBActivity.EXTRA_MOVIE_ID));
+        }
+    }
+    private void launchBrowser(String id){
+        String trailerUrl = "http://www.imdb.com/title/" + id;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(trailerUrl));
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case R.id.action_launch:
-
-                Log.v("IMDBActivity", "Movie id passed from detail: " + id);
-                startActivity(IMDBActivity.newIntent(getActivity(), id));
-
-                getActivity().setTitle(R.string.nav_movies);
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
+                startIMDBActivity();
                 return true;
             default:
                 break;
