@@ -2,20 +2,17 @@ package com.dcs.shows;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,13 +24,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.dcs.shows.utils.FavoriteUtils;
-import com.google.common.primitives.Shorts;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
@@ -48,7 +43,7 @@ public class DetailFragment extends Fragment {
     private Show mShow;
     private ImageView mImageView, mImageViewPoster, mCollpasingImageView;
     private TextView mTitleView, mVoteAverageView, mOverviewView, mDateView, mEmptyViewBackdrop, mEmptyViewPoster;
-    private Button mTrailerButton;
+    private FloatingActionButton mTrailerFAB;
     private FloatingActionButton mFloatingActionButton;
     private boolean fabChecked = false;
     private String mScope, mLanguage, mId;
@@ -95,7 +90,7 @@ public class DetailFragment extends Fragment {
         mOverviewView = (TextView) rootView.findViewById(R.id.detail_overview);
         mDateView = (TextView) rootView.findViewById(R.id.detail_date);
         mVoteAverageView = (TextView) rootView.findViewById(R.id.detail_vote_average);
-        mTrailerButton = (Button) rootView.findViewById(R.id.button_trailer);
+        mTrailerFAB = (FloatingActionButton) rootView.findViewById(R.id.trailer_fab);
         mFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fab);
         mEmptyViewBackdrop = (TextView) rootView.findViewById(R.id.empty_view_backdrop);
         mEmptyViewPoster = (TextView) rootView.findViewById(R.id.empty_view_poster);
@@ -151,6 +146,7 @@ public class DetailFragment extends Fragment {
             mImageViewPoster.setVisibility(View.GONE);
             mEmptyViewPoster.setVisibility(View.VISIBLE);
             mEmptyViewPoster.setText("No image available");
+
         }else {
             //Loading poster
             String image_url_poster = "http://image.tmdb.org/t/p/w185" +  mShow.getImage();
@@ -166,11 +162,14 @@ public class DetailFragment extends Fragment {
                             Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
                                 public void onGenerated(Palette p) {
                                     if(p != null && p.getDarkVibrantSwatch() != null){
-                                        setToolbarColor(p.getDarkVibrantSwatch().getRgb());
+                                        int darkVibrantSwatch = p.getDarkVibrantSwatch().getRgb();
 
+                                        mTrailerFAB.setBackgroundTintList(ColorStateList.valueOf(darkVibrantSwatch));
+
+                                        setToolbarColor(darkVibrantSwatch);
                                         ((AppCompatActivity) getActivity())
                                                 .getSupportActionBar()
-                                                .setBackgroundDrawable(new ColorDrawable(p.getDarkVibrantSwatch().getRgb()));
+                                                .setBackgroundDrawable(new ColorDrawable(darkVibrantSwatch));
                                     }
 
 
@@ -197,7 +196,7 @@ public class DetailFragment extends Fragment {
         }
 
         mVoteAverageView.setText(Integer.toString(mShow.getRating()) + "/10");
-        mTrailerButton.setOnClickListener(new View.OnClickListener() {
+        mTrailerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String currentMovieId = Integer.valueOf(mShow.getShowId()).toString();

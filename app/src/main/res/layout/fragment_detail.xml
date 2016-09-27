@@ -21,152 +21,178 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="160dp">
-                <TextView
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/header"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    tools:text="no image found"
-                    android:visibility="invisible"
-                    android:id="@+id/empty_view_backdrop"
-                    />
-                <ImageView
-                    android:id="@+id/detail_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:scaleType="centerCrop"
-                    tools:text="ndasodosaodoasod"
-                    />
-            </FrameLayout>
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/header_cardview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:visibility="visible"
-                android:layout_marginTop="-24dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="100dp"
-                        android:layout_height="193dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textColor="?android:attr/textColorSecondary"
-                            tools:text="no image found"
-                            android:visibility="invisible"
-                            android:id="@+id/empty_view_poster"
-                            />
-
-                        <ImageView
-                            android:layout_marginTop="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_width="100dp"
-                            android:layout_height="193dp"
-                            android:id="@+id/detail_image_poster"/>
-
-
-                    </FrameLayout>
+                    android:layout_height="160dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        tools:text="no image found"
+                        android:visibility="invisible"
+                        android:id="@+id/empty_view_backdrop"
+                        />
+                    <ImageView
+                        android:id="@+id/detail_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        tools:text="ndasodosaodoasod"
+                        />
+                </FrameLayout>
 
 
 
-                    <LinearLayout
+
+                <android.support.v7.widget.CardView
+                        android:id="@+id/header_cardview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        tools:visibility="visible"
+                        android:layout_marginTop="-24dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_below="@id/header"
+                        >
 
 
-                        <TextView
-                            android:id="@+id/detail_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="Movie title: 2dsdsdsdsdsdsddsdsds"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:layout_marginTop="32dp"
-                            android:layout_marginLeft="24dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginBottom="24dp"
-                            android:textColor="@android:color/black"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="24dp">
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Release date"
-                                android:textColor="@android:color/black"
-                                android:textSize="17sp" />
+                            <FrameLayout
+                                android:layout_width="100dp"
+                                android:layout_height="193dp">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="?android:attr/textColorSecondary"
+                                    tools:text="no image found"
+                                    android:visibility="invisible"
+                                    android:id="@+id/empty_view_poster"
+                                    />
 
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"  />
+                                <ImageView
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_width="100dp"
+                                    android:layout_height="193dp"
+                                    android:id="@+id/detail_image_poster"/>
 
-                            <TextView
-                                android:id="@+id/detail_date"
-                                android:layout_width="wrap_content"
+
+                            </FrameLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="40dp"
-                                tools:text="oct 2013"/>
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+                                    android:id="@+id/detail_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:text="Movie title: 2dsdsdsdsdsdsddsdsds"
+                                    android:textStyle="bold"
+                                    android:textSize="20sp"
+                                    android:layout_marginTop="32dp"
+                                    android:layout_marginLeft="24dp"
+                                    android:layout_marginRight="16dp"
+                                    android:layout_marginBottom="24dp"
+                                    android:textColor="@android:color/black"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="24dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Release date"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="17sp" />
+
+                                    <View
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"  />
+
+                                    <TextView
+                                        android:id="@+id/detail_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="40dp"
+                                        tools:text="oct 2013"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="24dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Vote average"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="17sp"/>
+
+                                    <View
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"  />
+
+                                    <TextView
+                                        android:id="@+id/detail_vote_average"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        tools:text="10/10"
+                                        android:layout_marginRight="40dp"/>
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="24dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Vote average"
-                                android:textColor="@android:color/black"
-                                android:textSize="17sp"/>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"  />
-
-                            <TextView
-                                android:id="@+id/detail_vote_average"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="10/10"
-                                android:layout_marginRight="40dp"/>
-
-                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
 
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android.support.design:fabSize="normal"
+                    android:id="@+id/trailer_fab"
+                    android:src="@drawable/ic_play_arrow_black"
+                    android:layout_marginTop="110dp"
+                    android:layout_marginRight="27dp"
+                    android:layout_alignParentRight="true"/>
 
-                    </LinearLayout>
+            </RelativeLayout>
 
-                </LinearLayout>
 
-            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/overview_cardview"
@@ -189,29 +215,6 @@
 
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/detail_trailers_cardview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:visibility="visible"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="48dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp">
-
-
-                <Button
-                    android:id="@+id/button_trailer"
-                    android:layout_margin="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableRight="@drawable/ic_play_arrow_black"
-                    android:text="Play Trailer"
-                    />
-
-
-            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
@@ -223,8 +226,9 @@
         android:layout_height="wrap_content"
         android.support.design:fabSize="normal"
         android:id="@+id/fab"
+        android.support.design:backgroundTint="#E53935"
         android:src="@drawable/ic_hearth_empty"
-        android:layout_marginLeft="27dp"
+        android:layout_marginRight="27dp"
         android:layout_marginBottom="56dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"/>

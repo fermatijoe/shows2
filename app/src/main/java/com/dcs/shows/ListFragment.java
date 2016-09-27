@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -47,10 +48,11 @@ public class ListFragment extends Fragment{
     private String mCurrentSortPreference = "popular", mLanguage;
     private TextView mTextView;
     private ProgressBar mProgressBar;
-    private int mScope;
+    public int mScope;
     private RecyclerView mRecyclerView;
     private ShowAdapter mShowAdapter;
     private SearchView mSearchView;
+
 
 
     public static ListFragment newInstance(int target) {
@@ -64,6 +66,8 @@ public class ListFragment extends Fragment{
     public ListFragment() {
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,29 +78,13 @@ public class ListFragment extends Fragment{
         Log.v(LOG_TAG, "language: " + mLanguage);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().setTitle(R.string.nav_movies);
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
-        if(getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null){
-            ((AppCompatActivity) getActivity())
-                    .getSupportActionBar()
-                    .setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimary)));
-        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            Window window = getActivity().getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
 
         mShowAdapter = new ShowAdapter(new ArrayList<Show>());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -166,6 +154,46 @@ public class ListFragment extends Fragment{
         (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
                 Integer.valueOf(scope).toString(), sort, override);
 
+    }
+
+    public void resetToolbar(){
+        //reset title
+        resetTitle();
+
+        //and toolbar color
+        resetColor();
+    }
+
+    private void resetTitle(){
+        switch (mScope){
+            case 1:
+                getActivity().setTitle(R.string.nav_movies);
+                break;
+            case 2:
+                getActivity().setTitle(R.string.nav_tv);
+                break;
+            case 3:
+                getActivity().setTitle(R.string.nav_fav);
+                break;
+            default:
+                getActivity().setTitle(R.string.nav_movies);
+                break;
+        }
+    }
+
+    private void resetColor(){
+        if(getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null){
+            ((AppCompatActivity) getActivity())
+                    .getSupportActionBar()
+                    .setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimary)));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getActivity().getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, List<Show>> {

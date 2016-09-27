@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     public final static int LAUNCH_MOVIES = 1;
     public final static int LAUNCH_TV = 2;
     public final static int LAUNCH_FAV = 3;
+
 
 
 
@@ -68,6 +70,19 @@ public class MainActivity extends AppCompatActivity
 
 
         launchListFragment(LAUNCH_MOVIES);
+
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Log.d("backstackbug", "back stack count = " + getSupportFragmentManager().getBackStackEntryCount());
+                if(getSupportFragmentManager().getBackStackEntryCount()>0) {
+                } else {
+                    ((ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG")).resetToolbar();
+
+                }
+            }
+        });
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -132,7 +147,7 @@ public class MainActivity extends AppCompatActivity
 
         Fragment newDetail = ListFragment.newInstance(scope);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, newDetail)
+                .replace(R.id.fragment_container, newDetail, "LIST_F_TAG")
                 .commit();
     }
     private void launchRandomFragment(){
