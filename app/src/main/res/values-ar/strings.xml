@@ -7,4 +7,26 @@
     <string name="nav_tv">البرامج التلفزيونية</string>
     <string name="sort_popular">ترتيب حسب شعبية</string>
     <string name="sort_top">ترتيب حسب أفضل</string>
+    <string name="nav_coming_soon">قريبا</string>
+    <string name="Action">عمل</string>
+    <string name="Adventure">مغامرة</string>
+    <string name="Animation">الرسوم المتحركة</string>
+    <string name="Comedy">كوميديا</string>
+    <string name="Crime">جريمة</string>
+    <string name="Documentary">وثائقي</string>
+    <string name="Drama">دراما</string>
+    <string name="Family">أسرة</string>
+    <string name="Fantasy">خيال</string>
+    <string name="Foreign">أجنبي</string>
+    <string name="History">التاريخ</string>
+    <string name="Horror">رعب</string>
+    <string name="Music">موسيقى</string>
+    <string name="Mystery">الغموض</string>
+    <string name="Romance">رومانسي</string>
+    <string name="Science_Fiction">الخيال العلمي</string>
+    <string name="TV_Movie">فيلم تلفزيوني</string>
+    <string name="Thriller">تمثيليه مثيره</string>
+    <string name="War">حرب</string>
+    <string name="error_no_overview">لا يوجد وصف متاح</string>
+    <string name="genres">الأنواع</string>
 </resources>

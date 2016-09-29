@@ -7,4 +7,26 @@
     <string name="nav_tv">टीवी शो</string>
     <string name="sort_popular">लोकप्रिय द्वारा आदेश</string>
     <string name="sort_top">सबसे अच्छा द्वारा आदेश</string>
+    <string name="nav_coming_soon">जल्द आ रहा है</string>
+    <string name="Action">कार्य</string>
+    <string name="Adventure">साहसिक</string>
+    <string name="Animation">एनीमेशन</string>
+    <string name="Comedy">कॉमेडी</string>
+    <string name="Crime">अपराध</string>
+    <string name="Documentary">दस्तावेज़ी</string>
+    <string name="Drama">नाटक</string>
+    <string name="Family">परिवार</string>
+    <string name="Fantasy">कपोल कल्पित</string>
+    <string name="Foreign">विदेशी</string>
+    <string name="History">इतिहास</string>
+    <string name="Horror">डरावनी</string>
+    <string name="Music">संगीत</string>
+    <string name="Mystery">रहस्य</string>
+    <string name="Romance">प्रेम प्रसंगयुक्त</string>
+    <string name="Science_Fiction">कल्पित विज्ञान</string>
+    <string name="TV_Movie">टीवी मूवी</string>
+    <string name="Thriller">थ्रिलर</string>
+    <string name="War">युद्ध</string>
+    <string name="error_no_overview">कोई वर्णन उपलब्ध नहीं</string>
+    <string name="genres">शैलियों</string>
 </resources>

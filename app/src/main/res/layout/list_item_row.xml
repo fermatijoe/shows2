@@ -4,17 +4,21 @@
                    android:orientation="vertical"
                    android:layout_width="match_parent"
                    android:layout_height="170dp"
-                   tools:background="@android:color/holo_green_light">
+                   tools:background="@android:color/holo_green_light"
+             android:clickable="true"
+             android:focusable="true"
+             android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/grid_item_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:padding="5dp"
-        android:gravity="center|left"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:ellipsize="end"
-        android:textColor="?android:attr/textColorSecondary" />
+        android:textColor="@android:color/white" />
 
 
     <ImageView

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     public final static int LAUNCH_MOVIES = 1;
     public final static int LAUNCH_TV = 2;
     public final static int LAUNCH_FAV = 3;
+    public final static int LAUNCH_COMING_SOON = 4;
 
 
 
@@ -75,11 +76,11 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                Log.d("backstackbug", "back stack count = " + getSupportFragmentManager().getBackStackEntryCount());
-                if(getSupportFragmentManager().getBackStackEntryCount()>0) {
-                } else {
-                    ((ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG")).resetToolbar();
-
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG");
+                    if (listFragment != null) {
+                        listFragment.resetToolbar();
+                    }
                 }
             }
         });
@@ -119,6 +120,8 @@ public class MainActivity extends AppCompatActivity
             launchListFragment(LAUNCH_FAV);
         } else if (id == R.id.nav_random){
             launchRandomFragment();
+        } else if (id == R.id.nav_coming){
+            launchListFragment(LAUNCH_COMING_SOON);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity
     private void showAboutDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("About this app");
-        alertDialog.setMessage("Movie database provided by TheMovieDatabase API");
+        alertDialog.setMessage("This product uses the TMDb API but is not endorsed or certified by TMDb.\nwww.themoviedb.org");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

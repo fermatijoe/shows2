@@ -8,6 +8,7 @@ import com.orm.SugarRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 
 
 public class Show extends SugarRecord {
@@ -19,10 +20,9 @@ public class Show extends SugarRecord {
     int rating; // vote_average
     String date; // release_date
     String scope;
+    List<String> genres;
 
-    public Show() {
-
-    }
+    public Show() {}
 
     //it looks like that the Show object gets auto filled with these values from the JSONObject
 
@@ -46,6 +46,14 @@ public class Show extends SugarRecord {
         this.rating = movie.getInt("vote_average");
         this.date = movie.getString("first_air_date");
         this.scope = "tv";
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
     public int getShowId() {

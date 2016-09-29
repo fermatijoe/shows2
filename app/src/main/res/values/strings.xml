@@ -9,11 +9,35 @@
     <string name="nav_tv">Tv shows</string>
     <string name="nav_fav">Favorites</string>
     <string name="nav_random">Random</string>
+    <string name="nav_coming_soon">Coming soon</string>
 
     <string name="sort_top">Order by best</string>
     <string name="sort_popular">Order by popular</string>
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9909155562202230/5941204906</string>
+
+    <string name="error_no_overview">No description available</string>
+
+    <string name="genres">Genres</string>
+    <string name="Action">Action</string>
+    <string name="Adventure">Adventure</string>
+    <string name="Animation">Animation</string>
+    <string name="Comedy">Comedy</string>
+    <string name="Crime">Crime</string>
+    <string name="Documentary">Documentary</string>
+    <string name="Drama">Drama</string>
+    <string name="Family">Family</string>
+    <string name="Fantasy">Fantasy</string>
+    <string name="Foreign">Foreign</string>
+    <string name="History">History</string>
+    <string name="Horror">Horror</string>
+    <string name="Music">Music</string>
+    <string name="Mystery">Mystery</string>
+    <string name="Romance">Romance</string>
+    <string name="Science_Fiction">Science Fiction</string>
+    <string name="TV_Movie">TV Movie</string>
+    <string name="Thriller">Thriller</string>
+    <string name="War">War</string>
 
 
 </resources>

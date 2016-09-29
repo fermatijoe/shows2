@@ -75,7 +75,6 @@ public class ListFragment extends Fragment{
         setHasOptionsMenu(true);
         mLanguage = MainActivity.getSystemLanguage();
         mLanguage = mLanguage.replace("_", "-");
-        Log.v(LOG_TAG, "language: " + mLanguage);
     }
 
 
@@ -133,6 +132,18 @@ public class ListFragment extends Fragment{
                     mTextView.setText("No favorites");
                 }else {
                     mShowAdapter.addItemsToList(favList, false);
+                    mProgressBar.setVisibility(View.GONE);
+                }
+                break;
+            case 4:
+                //coming soon list
+                getActivity().setTitle(R.string.nav_coming_soon);
+
+                if(checkConnectivity()){
+                    anotherOne(1, mScope, mCurrentSortPreference, false);
+                }else {
+                    mTextView.setVisibility(View.VISIBLE);
+                    mTextView.setText("No internet connection");
                     mProgressBar.setVisibility(View.GONE);
                 }
                 break;
@@ -204,24 +215,31 @@ public class ListFragment extends Fragment{
         @Override
         protected List<Show> doInBackground(String... params) {
             //params 0 = page to load. should be always >1 and !=0
-            //params 1 = mScope. should be 1(movies) or 2(tv shows)
+            //params 1 = mScope. should be 1(movies) or 2(tv shows) or 4(coming soon list)
             //params 2 = order to load. should be "popular" or "top_rated".
             if(params[3].equals("true")){
-                Log.v(LOG_TAG, "setting override to true, actual val is : " + override);
                 override = true;
             }
-
             Uri baseUri = Uri.parse(BASE_URL);
-            Uri.Builder uriBuilder = baseUri.buildUpon();
-            uriBuilder.appendPath(getLiteralScope(params[1])); //movie or tv?
-            uriBuilder.appendPath(params[2]);
-            uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY);
-            uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
-            uriBuilder.appendQueryParameter("language", mLanguage);
+            Uri.Builder uriBuilder = baseUri.buildUpon();;
+
+            if(params[1].equals("4")){
+                uriBuilder.appendPath("movie");
+                uriBuilder.appendPath("upcoming");
+                uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
+                uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
+                uriBuilder.appendQueryParameter("language", mLanguage); //user language
+            }else{
+                uriBuilder.appendPath(getLiteralScope(params[1])); //movie or tv?
+                uriBuilder.appendPath(params[2]); //sort order
+                uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
+                uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
+                uriBuilder.appendQueryParameter("language", mLanguage); //user language
+            }
+
+
 
             Log.v(LOG_TAG, "onCreateLoader@URL built: " + uriBuilder.toString());
-            Log.v(LOG_TAG, "params[1]: " + params[1]);
-            Log.v(LOG_TAG, "params[3]: " + params[3]);
 
             return QueryUtils.fetchEarthquakeData(uriBuilder.toString(), params[1]);
         }
@@ -384,6 +402,7 @@ public class ListFragment extends Fragment{
             Show currentShow = mShows.get(position);
 
             holder.mTextView.setText(currentShow.getTitle());
+            
             String imageUrl = "http://image.tmdb.org/t/p/w185" + currentShow.getImage();
             Glide.with(getActivity()).load(imageUrl).into(holder.mImageView);
 

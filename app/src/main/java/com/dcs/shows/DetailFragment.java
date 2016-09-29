@@ -12,7 +12,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,18 +26,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.dcs.shows.utils.CreditsAsyncTask;
 import com.dcs.shows.utils.FavoriteUtils;
+import com.dcs.shows.utils.SpacesItemDecoration;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DetailFragment extends Fragment {
 
@@ -41,12 +50,16 @@ public class DetailFragment extends Fragment {
     public final static String SHOW_SCOPE = "com.dcs.shows.show_to_load";
 
     private Show mShow;
-    private ImageView mImageView, mImageViewPoster, mCollpasingImageView;
-    private TextView mTitleView, mVoteAverageView, mOverviewView, mDateView, mEmptyViewBackdrop, mEmptyViewPoster;
+    private ImageView mImageView, mImageViewPoster, mCollpasingImageView, mLoadMoreImageView;
+    private TextView mTitleView, mVoteAverageView, mOverviewView, mDateView, mEmptyViewBackdrop,
+            mEmptyViewPoster, mGenresTextView;
     private FloatingActionButton mTrailerFAB;
     private FloatingActionButton mFloatingActionButton;
     private boolean fabChecked = false;
     private String mScope, mLanguage, mId;
+    private CardView mLoadMorecardView, mMoreCardView1, mMoreCardView2;
+    private RecyclerView mRecyclerView;
+    private DetailFragment.PersonAdapter mShowAdapter;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -84,6 +97,7 @@ public class DetailFragment extends Fragment {
         mId = Integer.valueOf(mShow.getShowId()).toString();
 
 
+        mLoadMoreImageView = (ImageView) rootView.findViewById(R.id.load_more_imageView);
         mImageViewPoster = (ImageView) rootView.findViewById(R.id.detail_image_poster);
         mImageView = (ImageView) rootView.findViewById(R.id.detail_image);
         mTitleView = (TextView) rootView.findViewById(R.id.detail_title);
@@ -94,6 +108,10 @@ public class DetailFragment extends Fragment {
         mFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fab);
         mEmptyViewBackdrop = (TextView) rootView.findViewById(R.id.empty_view_backdrop);
         mEmptyViewPoster = (TextView) rootView.findViewById(R.id.empty_view_poster);
+        mLoadMorecardView = (CardView) rootView.findViewById(R.id.load_more_cardview);
+        mMoreCardView1 = (CardView) rootView.findViewById(R.id.more_cardView_1);
+        mMoreCardView2 = (CardView) rootView.findViewById(R.id.more_cardView_2);
+        mGenresTextView = (TextView) rootView.findViewById(R.id.genres_text_view);
 
         if(FavoriteUtils.checkIfThisIsFavorite(mShow)) {
             fabChecked = true;
@@ -182,7 +200,13 @@ public class DetailFragment extends Fragment {
 
 
         mTitleView.setText(mShow.getTitle());
-        mOverviewView.setText(mShow.getOverview());
+
+        if(mShow.getOverview() == null || mShow.getOverview().equals("")){
+            mOverviewView.setText(R.string.error_no_overview);
+        }else {
+            mOverviewView.setText(mShow.getOverview());
+        }
+
 
         String movie_date = mShow.getDate();
 
@@ -203,6 +227,40 @@ public class DetailFragment extends Fragment {
                 startActivity(TrailerActivity.newIntent(getActivity(), currentMovieId, mScope));
             }
         });
+
+
+        /*
+        Move info stuff below
+
+         */
+        if(!mShow.getScope().equals("movie")){
+            mLoadMorecardView.setVisibility(View.GONE);
+        }
+        mLoadMoreImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mShow.getGenres() != null && mShow.getScope().equals("movie")){
+                    mLoadMorecardView.setVisibility(View.GONE);
+                    mMoreCardView1.setVisibility(View.VISIBLE);
+                    String g = Arrays.toString(mShow.getGenres().toArray());
+                    g = g.replace("[", "");
+                    g = g.replace("]", "");
+                    mGenresTextView.setText(g);
+                }
+
+                //pass movie id to asynctask
+                String showId = Integer.valueOf(mShow.getShowId()).toString();
+                new Async1().execute(showId);
+
+            }
+        });
+
+        mShowAdapter = new PersonAdapter(new ArrayList<CrewMember>());
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cast_recyclerView);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(llm);
+        mRecyclerView.setAdapter(mShowAdapter);
 
 
         return rootView;
@@ -268,6 +326,97 @@ public class DetailFragment extends Fragment {
                 break;
         }
         return false;
+    }
+
+    private class Async1 extends CreditsAsyncTask {
+
+        @Override
+        protected void onPostExecute(List<CrewMember> crewMembers) {
+            super.onPostExecute(crewMembers);
+            //show the data and remove the super
+            if (crewMembers != null && !crewMembers.isEmpty()) {
+                mShowAdapter.addItemsToList(crewMembers, false);
+                mShowAdapter.notifyDataSetChanged();
+                mMoreCardView2.setVisibility(View.VISIBLE);
+            }
+
+        }
+    }
+
+    private class PersonHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public ImageView mImageView;
+        public TextView mNameView, mRoleView;
+
+        public PersonHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            mImageView = (ImageView) itemView.findViewById(R.id.profile_pic);
+            mNameView = (TextView) itemView.findViewById(R.id.actor_name);
+            mRoleView = (TextView) itemView.findViewById(R.id.actor_role);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = DetailFragment.PersonHolder.this.getAdapterPosition();
+            //maybe handle profile page click
+        }
+    }
+
+    private class PersonAdapter extends RecyclerView.Adapter<DetailFragment.PersonHolder> {
+        private List<CrewMember> mActors;
+
+        public PersonAdapter(List<CrewMember> actors) {
+            mActors = actors;
+        }
+
+        public void add(CrewMember actor){
+            mActors.add(actor);
+            notifyDataSetChanged();
+        }
+        public void addItemsToList(List<CrewMember> newActors, boolean append){
+            if(append){
+                mActors.addAll(newActors);
+            }else {
+                mActors = newActors;
+            }
+            notifyDataSetChanged();
+        }
+
+        public List<CrewMember> getList(){
+            return mActors;
+        }
+
+        @Override
+        public DetailFragment.PersonHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View rootView = inflater.inflate(R.layout.list_item_row_crew, parent, false);
+            return new DetailFragment.PersonHolder(rootView);
+        }
+        @Override
+        public void onBindViewHolder(DetailFragment.PersonHolder holder, int position) {
+            CrewMember currentPerson = mActors.get(position);
+
+            if(currentPerson.getImage() != null && !currentPerson.getImage().equals("null")) {
+                String imageUrl = "http://image.tmdb.org/t/p/w130" + currentPerson.getImage();
+                Log.v(LOG_TAG, "one guy image " + imageUrl);
+                Glide.with(getActivity()).load(imageUrl).into(holder.mImageView);
+            }
+
+
+
+            holder.mNameView.setText(currentPerson.getName());
+
+            if(currentPerson.getRole().equals("crew")){
+                holder.mRoleView.setText(currentPerson.getJob());
+            }else {
+                holder.mRoleView.setText(currentPerson.getCharacter());
+            }
+
+        }
+        @Override
+        public int getItemCount() {
+            return mActors.size();
+        }
     }
 
 

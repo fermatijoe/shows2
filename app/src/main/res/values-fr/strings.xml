@@ -7,4 +7,26 @@
     <string name="nav_tv">Émissions de télévision</string>
     <string name="sort_popular">Trier par populaires</string>
     <string name="sort_top">Trier par meilleur</string>
+    <string name="nav_coming_soon">Arrive bientôt</string>
+    <string name="Action">action</string>
+    <string name="Adventure">Aventure</string>
+    <string name="Animation">Animation</string>
+    <string name="Comedy">Comédie</string>
+    <string name="Crime">Criminalité</string>
+    <string name="Documentary">Documentaire</string>
+    <string name="Drama">Drame</string>
+    <string name="Family">Famille</string>
+    <string name="Fantasy">Fantaisie</string>
+    <string name="Foreign">Étranger</string>
+    <string name="History">Histoire</string>
+    <string name="Horror">Horreur</string>
+    <string name="Music">Musique</string>
+    <string name="Mystery">Mystère</string>
+    <string name="Romance">Romantique</string>
+    <string name="Science_Fiction">Science fiction</string>
+    <string name="TV_Movie">TV Movie</string>
+    <string name="Thriller">Thriller</string>
+    <string name="War">Guerre</string>
+    <string name="error_no_overview">Pas de description disponible</string>
+    <string name="genres">Genres</string>
 </resources>

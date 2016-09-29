@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single"
+           android:id="@+id/g3">
+        <item
+            android:id="@+id/nav_coming"
+            android:title="@string/nav_coming_soon"
+            android:icon="@drawable/ic_coming_soon"/>
+    </group>
+    <group android:checkableBehavior="single"
         android:id="@+id/g1">
         <item
             android:id="@+id/nav_movies"

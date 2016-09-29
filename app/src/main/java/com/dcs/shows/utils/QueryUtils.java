@@ -19,9 +19,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static android.R.id.list;
+
 public class QueryUtils {
+
     public static final String LOG_TAG = QueryUtils.class.getName();
     public final static String API_KEY = "480a9e79c0937c9f4e4a129fd0463f96";
     /**
@@ -145,19 +149,33 @@ public class QueryUtils {
 
             List<Show> results = new ArrayList<>();
 
-            if(scope == 1){
+            if(scope == 1 || scope == 4){
                 for(int i = 0; i < movieArray.length(); i++) {
                     JSONObject movie = movieArray.getJSONObject(i);
-                    Show movieModel = new Show(movie); // basically Movie has already the fields to fill (image,
-                    // description, rating, etc) and this adds those values from the JSONObject
-                    results.add(movieModel); // it does this one object at the time, for the lenght of the array
+                    Show movieModel = new Show(movie);
+
+                    List<String> genres = new ArrayList<>();
+                    JSONArray genreArray = movie.getJSONArray("genre_ids");
+                    GenreList gl = new GenreList();
+                    gl.initGenreList();
+                    for (int n = 0; n<genreArray.length(); n++){
+
+
+                        int genreId = genreArray.getInt(n);
+                        String genreName = gl.getGenreWithId(genreId);
+                        genres.add(genreName);
+                    }
+
+                    movieModel.setGenres(genres);
+
+                    Log.v(LOG_TAG, "GENRES SAVED " + Arrays.toString(genres.toArray()));
+                    results.add(movieModel);
                 }
             } else if(scope == 2){
                 for(int i = 0; i < movieArray.length(); i++) {
                     JSONObject movie = movieArray.getJSONObject(i);
-                    Show movieModel = new Show(movie, 10101010); // basically Movie has already the fields to fill (image,
-                    // description, rating, etc) and this adds those values from the JSONObject
-                    results.add(movieModel); // it does this one object at the time, for the lenght of the array
+                    Show movieModel = new Show(movie, 10101010);
+                    results.add(movieModel);
                 }
             }
 

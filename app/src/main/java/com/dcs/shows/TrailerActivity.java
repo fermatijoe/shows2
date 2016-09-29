@@ -150,6 +150,7 @@ public class TrailerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No trailers available", Toast.LENGTH_SHORT).show();
             }else {
                 launchBrowser(url);
+                finish();
             }
 
         }

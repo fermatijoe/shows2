@@ -7,4 +7,26 @@
     <string name="nav_tv">ТВ шоу</string>
     <string name="sort_popular">Сортировать по популярным</string>
     <string name="sort_top">Сортировать по лучшим</string>
+    <string name="nav_coming_soon">Скоро</string>
+    <string name="Action">действие</string>
+    <string name="Adventure">Приключение</string>
+    <string name="Animation">Анимация</string>
+    <string name="Comedy">комедия</string>
+    <string name="Crime">преступление</string>
+    <string name="Documentary">Документальный</string>
+    <string name="Drama">драма</string>
+    <string name="Family">семья</string>
+    <string name="Fantasy">Фантазия</string>
+    <string name="Foreign">иностранные</string>
+    <string name="History">история</string>
+    <string name="Horror">Ужастик</string>
+    <string name="Music">Музыка</string>
+    <string name="Mystery">тайна</string>
+    <string name="Romance">романтик</string>
+    <string name="Science_Fiction">Научная фантастика</string>
+    <string name="TV_Movie">TV Movie</string>
+    <string name="Thriller">Триллер</string>
+    <string name="War">война</string>
+    <string name="error_no_overview">Нет описания</string>
+    <string name="genres">Жанры</string>
 </resources>
