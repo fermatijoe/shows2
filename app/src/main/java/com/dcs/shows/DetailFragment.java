@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -28,13 +27,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.dcs.shows.utils.CreditsAsyncTask;
+import com.dcs.shows.tasks.ActorAsyncTask;
+import com.dcs.shows.tasks.CreditsAsyncTask;
 import com.dcs.shows.utils.FavoriteUtils;
-import com.dcs.shows.utils.SpacesItemDecoration;
+import com.dcs.shows.tasks.TrailerAsyncTask;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
@@ -42,6 +43,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.dcs.shows.R.id.cast_recyclerView;
 
 public class DetailFragment extends Fragment {
 
@@ -59,7 +62,7 @@ public class DetailFragment extends Fragment {
     private String mScope, mLanguage, mId;
     private CardView mLoadMorecardView, mMoreCardView1, mMoreCardView2;
     private RecyclerView mRecyclerView;
-    private DetailFragment.PersonAdapter mShowAdapter;
+    private DetailFragment.PersonAdapter mPersonAdapter;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -85,6 +88,7 @@ public class DetailFragment extends Fragment {
         mScope = mShow.getScope();
         mLanguage = MainActivity.getSystemLanguage();
         mLanguage = mLanguage.replace("_", "-");
+        getActivity().setTitle(mShow.getTitle());
 
     }
 
@@ -92,10 +96,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        getActivity().setTitle(mShow.getTitle());
-
         mId = Integer.valueOf(mShow.getShowId()).toString();
-
 
         mLoadMoreImageView = (ImageView) rootView.findViewById(R.id.load_more_imageView);
         mImageViewPoster = (ImageView) rootView.findViewById(R.id.detail_image_poster);
@@ -121,7 +122,6 @@ public class DetailFragment extends Fragment {
             mFloatingActionButton.setImageResource(R.drawable.ic_hearth_empty);
         }
 
-
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,11 +136,8 @@ public class DetailFragment extends Fragment {
                     FavoriteUtils.addThisToFavorites(mShow);
                     fabChecked = true;
                 }
-
-
             }
         });
-
 
         if(mShow.getImage2() == null
                 || mShow.getImage2().contains("null")
@@ -148,14 +145,12 @@ public class DetailFragment extends Fragment {
             //movie has no backdrop.
             mImageView.setVisibility(View.GONE);
             mEmptyViewBackdrop.setVisibility(View.VISIBLE);
-            mEmptyViewBackdrop.setText("No image available");
+            mEmptyViewBackdrop.setText(R.string.error_no_overview);
         }else {
             //Loading backdrop
             String image_url = "http://image.tmdb.org/t/p/w300" + mShow.getImage2();
             Glide.with(this).load(image_url).into(mImageView);
         }
-
-
 
         if(mShow.getImage() == null
                 || mShow.getImage().contains("null")
@@ -163,8 +158,7 @@ public class DetailFragment extends Fragment {
             //movie has no backdrop.
             mImageViewPoster.setVisibility(View.GONE);
             mEmptyViewPoster.setVisibility(View.VISIBLE);
-            mEmptyViewPoster.setText("No image available");
-
+            mEmptyViewPoster.setText(R.string.error_no_overview);
         }else {
             //Loading poster
             String image_url_poster = "http://image.tmdb.org/t/p/w185" +  mShow.getImage();
@@ -189,9 +183,6 @@ public class DetailFragment extends Fragment {
                                                 .getSupportActionBar()
                                                 .setBackgroundDrawable(new ColorDrawable(darkVibrantSwatch));
                                     }
-
-
-
                                 }
                             });
                         }
@@ -224,7 +215,13 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentMovieId = Integer.valueOf(mShow.getShowId()).toString();
-                startActivity(TrailerActivity.newIntent(getActivity(), currentMovieId, mScope));
+                String scope = mShow.getScope();
+                if(scope == null || currentMovieId == null){
+                    Log.e("TrailerActivity", "null arguments, s : " + scope + ", id: " + currentMovieId);
+                    Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
+                }else {
+                    new Async3().execute(currentMovieId, scope);
+                }
             }
         });
 
@@ -233,34 +230,38 @@ public class DetailFragment extends Fragment {
         Move info stuff below
 
          */
-        if(!mShow.getScope().equals("movie")){
-            mLoadMorecardView.setVisibility(View.GONE);
-        }
+
         mLoadMoreImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoadMorecardView.setVisibility(View.GONE);
+                if(mShow.getGenres() != null){
 
-                if(mShow.getGenres() != null && mShow.getScope().equals("movie")){
-                    mLoadMorecardView.setVisibility(View.GONE);
                     mMoreCardView1.setVisibility(View.VISIBLE);
                     String g = Arrays.toString(mShow.getGenres().toArray());
                     g = g.replace("[", "");
                     g = g.replace("]", "");
                     mGenresTextView.setText(g);
+
+                    //pass movie id to asynctask
+                    String showId = Integer.valueOf(mShow.getShowId()).toString();
+                    new Async1().execute(showId, mScope);
+                }else{
+                    Toast.makeText(getActivity(), R.string.error_no_overview, Toast.LENGTH_SHORT).show();
                 }
 
-                //pass movie id to asynctask
-                String showId = Integer.valueOf(mShow.getShowId()).toString();
-                new Async1().execute(showId);
+
 
             }
         });
 
-        mShowAdapter = new PersonAdapter(new ArrayList<CrewMember>());
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cast_recyclerView);
+
+
+        mPersonAdapter = new PersonAdapter(new ArrayList<CrewMember>());
+        mRecyclerView = (RecyclerView) rootView.findViewById(cast_recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(llm);
-        mRecyclerView.setAdapter(mShowAdapter);
+        mRecyclerView.setAdapter(mPersonAdapter);
 
 
         return rootView;
@@ -314,6 +315,19 @@ public class DetailFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void launchBrowserForActor(String id){
+        String trailerUrl = "http://www.imdb.com/name/" + id;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(trailerUrl));
+        startActivity(intent);
+    }
+
+    private void launchYoutubeForTrailer(String urlEnd){
+        String trailerUrl = "http://www.youtube.com/watch?v=" + urlEnd;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(trailerUrl));
+        startActivity(intent);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -329,17 +343,49 @@ public class DetailFragment extends Fragment {
     }
 
     private class Async1 extends CreditsAsyncTask {
-
         @Override
         protected void onPostExecute(List<CrewMember> crewMembers) {
             super.onPostExecute(crewMembers);
             //show the data and remove the super
             if (crewMembers != null && !crewMembers.isEmpty()) {
-                mShowAdapter.addItemsToList(crewMembers, false);
-                mShowAdapter.notifyDataSetChanged();
+                mPersonAdapter.addItemsToList(crewMembers, false);
+                mPersonAdapter.notifyDataSetChanged();
                 mMoreCardView2.setVisibility(View.VISIBLE);
             }
+        }
+    }
 
+    //Fired when the user clicks on an actor's profile image
+    //Should launch the ActorDetailFragment
+    private class Async2 extends ActorAsyncTask {
+        @Override
+        protected void onPostExecute(CrewMember s) {
+            if(s != null){
+                //launch ActorDetailFragment where there will be another async task to fetch
+                //participated movies
+                String serializedPerson = new Gson().toJson(s);
+                Fragment newDetail = CrewMemberDetailFragment.newInstance(serializedPerson);
+                if(getActivity() != null && isAdded()){
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, newDetail)
+                            .addToBackStack("crewDetail")
+                            .commit();
+                }
+            }
+
+        }
+    }
+
+
+    private class Async3 extends TrailerAsyncTask {
+        @Override
+        protected void onPostExecute(String s) {
+            if (s == null) {
+                Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
+            }else {
+                launchYoutubeForTrailer(s);
+            }
         }
     }
 
@@ -358,7 +404,8 @@ public class DetailFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int adapterPosition = DetailFragment.PersonHolder.this.getAdapterPosition();
-            //maybe handle profile page click
+            //Open ActorAsyncTask and from its onPostExecute launch the IMDB page
+            new Async2().execute(mPersonAdapter.getList().get(adapterPosition).getPersonId());
         }
     }
 

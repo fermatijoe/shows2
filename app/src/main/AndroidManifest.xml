@@ -35,11 +35,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".TrailerActivity"
-            android:noHistory="true">
-        </activity>
-
         <activity android:name=".IMDBActivity"
                   android:noHistory="true">
         </activity>

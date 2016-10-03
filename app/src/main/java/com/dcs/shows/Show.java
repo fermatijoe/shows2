@@ -48,6 +48,24 @@ public class Show extends SugarRecord {
         this.scope = "tv";
     }
 
+    //light movie version (for actor page)
+    public Show(JSONObject movie, String notNeeded) throws JSONException {
+        this.showId = movie.getInt("id");
+        this.title = movie.getString("title");
+        this.image = movie.getString("poster_path");
+        this.scope = "movie";
+    }
+
+    //light tv version (for actor page)
+    public Show(JSONObject movie, String notNeeded, int notNeededAgain) throws JSONException {
+        this.showId = movie.getInt("id");
+        this.title = movie.getString("original_name");
+        this.image = movie.getString("poster_path");
+        this.scope = "tv";
+    }
+
+
+
     public List<String> getGenres() {
         return genres;
     }

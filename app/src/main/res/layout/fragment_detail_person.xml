@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:background="@android:color/black"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android.support.design="http://schemas.android.com/apk/res-auto"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:tools="http://schemas.android.com/tools"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@android:color/black"
+            android:paddingBottom="120dp">
+
+            <FrameLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    tools:text="no image found"
+                    android:visibility="invisible"
+                    android:id="@+id/empty_view_header"
+                    />
+                <ImageView
+                    android:id="@+id/header_imageview"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/test"
+                    />
+            </FrameLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-24dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="12dp">
+                <LinearLayout
+
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_imageview"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/test"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#ffffff"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="24dp"/>
+
+                    <com.dcs.shows.utils.AutoResizeTextView
+                        android:layout_gravity="center_vertical"
+                        tools:text="John Jonathan mcJohnFace Doe"
+                        android:id="@+id/name_textview"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        tools:layout_weight="3"/>
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        tools:text="1989"
+                        android:id="@+id/age_textview"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="8dp"
+                        android:ellipsize="none"
+                        android:maxLines="1"/>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/biography_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/biography_textview"
+                    android:layout_margin="8dp"
+                    android:textColor="@android:color/black"
+                    tools:text="Charlize Theron (born 7 August 1975) is a South African actress, film producer and former fashion model.\n\nShe rose to fame in the late 1990s following roles in the films The Devil's Advocate (1997), Mighty Joe Young (1998), and The Cider House Rules (1999). Theron received critical acclaim for her portrayal of serial killer Aileen Wuornos in Monster (2003), for which she won the Silver Bear, Golden Globe Award, Screen Actors Guild Award, and Academy Award for Best Actress among several other accolades, becoming the first South African to win an Academy Award in a major acting category. In recent years, she has moved into the field of producing, both in television and film.\n\nShe received further Academy Award and Golden Globe Award nominations for her performance in North Country in 2005, and a Golden Globe Award nomination for her performance in Young Adult in 2011. In 2012, she appeared in Snow White &amp; the Huntsman and Prometheus, both of which were box office successes. Theron became a U.S. citizen in 2007, while retaining her South African citizenship.\n\nTheron was born in Benoni, in the then-T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/movies_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/movies_recyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_nested"/>
+</RelativeLayout>

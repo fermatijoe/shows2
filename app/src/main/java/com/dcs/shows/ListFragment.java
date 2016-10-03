@@ -188,6 +188,7 @@ public class ListFragment extends Fragment{
                 break;
             default:
                 getActivity().setTitle(R.string.nav_movies);
+                Log.e(LOG_TAG, "Error resetting toolbar title");
                 break;
         }
     }
@@ -197,6 +198,8 @@ public class ListFragment extends Fragment{
             ((AppCompatActivity) getActivity())
                     .getSupportActionBar()
                     .setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimary)));
+        }else {
+            Log.e(LOG_TAG, "Error resetting toolbar color");
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
@@ -302,6 +305,8 @@ public class ListFragment extends Fragment{
                             scopeToSend = "movie";
                         }else if(mScope == 2){
                             scopeToSend = "tv";
+                        } else if (mScope == 4){ //we're in coming soon tab
+                            scopeToSend = "movie";
                         }
                         Fragment newDetail = SearchFragment.newInstance(s, listSerializedToJson, scopeToSend);
                         getActivity().getSupportFragmentManager().beginTransaction()

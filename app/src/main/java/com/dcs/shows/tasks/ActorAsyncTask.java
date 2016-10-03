@@ -1,13 +1,12 @@
-package com.dcs.shows.utils;
+package com.dcs.shows.tasks;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.dcs.shows.CrewMember;
-import com.dcs.shows.Show;
+import com.dcs.shows.utils.QueryUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,54 +16,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class CreditsAsyncTask extends AsyncTask<String, Void, List<CrewMember>> {
-    private final String LOG_TAG = CreditsAsyncTask.class.getSimpleName();
+public class ActorAsyncTask extends AsyncTask<String, Void, CrewMember> {
+    private final String LOG_TAG = ActorAsyncTask.class.getSimpleName();
 
-    private List<CrewMember> getTrailersDataFromJson(String jsonStr) throws JSONException {
-        List<CrewMember> results = new ArrayList<>();
+    private CrewMember getTrailersDataFromJson(String jsonStr) throws JSONException {
+
         try {
             JSONObject rootJSON = new JSONObject(jsonStr);
-            JSONArray castArray = rootJSON.getJSONArray("cast");
-
-            int length;
-            if (castArray.length() >= 10) {//there are more than 20 ppl in the movie, dont need to mention all
-                length = 10;
-            } else {//there are less than 10 ppl in the movie
-                length = castArray.length();
-            }
-
-            for (int i = 0; i < length; i++) {
-                JSONObject person = castArray.getJSONObject(i);
-                CrewMember onePerson = new CrewMember(person);
-                results.add(onePerson);
-            }
-
-            //then add director(s)
-
-            JSONArray crewArray = rootJSON.getJSONArray("crew");
-
-            for(int i = 0; i<10; i++){
-                JSONObject person = crewArray.getJSONObject(i);
-                if(person.getString("job").equals("Director")){
-                    CrewMember onePerson = new CrewMember(person, "this guy is using a different constructor");
-                    //irrelevant 2nd param
-                    results.add(onePerson);
-                }
-            }
-
-            return results;
+            CrewMember person = new CrewMember(rootJSON, 1);
+            return person;
         }catch (JSONException e){
-            Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing JSON", e);
         }
         return null;
     }
 
+    //params 0 is id
     @Override
-    protected List<CrewMember> doInBackground(String... params) {
+    protected CrewMember doInBackground(String... params) {
         if (params[0] == null) {
             return null;
         }
@@ -74,16 +44,16 @@ public class CreditsAsyncTask extends AsyncTask<String, Void, List<CrewMember>> 
         String jsonStr = null;
 
         try {
-            //https://api.themoviedb.org/3/movie/271110/credits?api_key=480a9e79c0937c9f4e4a129fd0463f96
-            final String BASE_URL = "http://api.themoviedb.org/3/movie/" + params[0];
+            //https://api.themoviedb.org/3/person/591882?api_key=480a9e79c0937c9f4e4a129fd0463f96&language=en-US
+            final String BASE_URL = "http://api.themoviedb.org/3/person/" + params[0];
             final String API_KEY_PARAM = "api_key";
 
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                    .appendPath("credits")
                     .appendQueryParameter(API_KEY_PARAM, QueryUtils.API_KEY)
                     .build();
             URL url = new URL(builtUri.toString());
+            Log.v(LOG_TAG, "built url: " + url);
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -129,6 +99,4 @@ public class CreditsAsyncTask extends AsyncTask<String, Void, List<CrewMember>> 
         }
         return null;
     }
-
-
 }

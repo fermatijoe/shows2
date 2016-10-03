@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity
                 if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG");
                     if (listFragment != null) {
+                        Log.v("backstackBUG", "Resetting toolbar");
                         listFragment.resetToolbar();
                     }
                 }

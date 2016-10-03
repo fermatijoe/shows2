@@ -16,7 +16,7 @@
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9909155562202230/5941204906</string>
 
-    <string name="error_no_overview">No description available</string>
+    <string name="error_no_overview">No information available</string>
 
     <string name="genres">Genres</string>
     <string name="Action">Action</string>

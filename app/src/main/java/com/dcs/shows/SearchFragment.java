@@ -116,9 +116,6 @@ public class SearchFragment extends Fragment {
             uriBuilder.appendQueryParameter("language", mLanguage);
 
 
-            Log.v(LOG_TAG, "onCreateLoader@URL built: " + uriBuilder.toString());
-            Log.v(LOG_TAG, "params[1]: " + params[1]);
-
             String s = "";
             if(params[0].equals("movie")){
                 s = "1";
@@ -126,6 +123,7 @@ public class SearchFragment extends Fragment {
                 s = "2";
             }
 
+            //Bug report says s with value: "" was passed. From coming soon tab
             List<Show> shows = QueryUtils.fetchEarthquakeData(uriBuilder.toString(), s);
             return shows;
         }

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="100dp"
-              android:background="#E0E0E0"
-              android:layout_height="135dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/profile_pic"
         tools:background="@android:color/black"
         tools:src="@drawable/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerInside"/>
+        android:layout_width="100dp"
+        android:layout_height="135dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:layout_marginTop="5dp"
         android:id="@+id/actor_name"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:maxLines="1"
@@ -25,20 +25,15 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         tools:text="The name of an actor"
-        android:textSize="12sp"
-        />
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/actor_role"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="The character playd by that actor"
-        android:textSize="12sp"
-
-        />
-
-
+        android:textSize="12sp"/>
 </LinearLayout>

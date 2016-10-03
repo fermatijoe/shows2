@@ -1,6 +1,5 @@
 package com.dcs.shows.utils;
 
-import android.graphics.Movie;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,8 +20,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.R.id.list;
 
 public class QueryUtils {
 
@@ -157,12 +154,12 @@ public class QueryUtils {
                     List<String> genres = new ArrayList<>();
                     JSONArray genreArray = movie.getJSONArray("genre_ids");
                     GenreList gl = new GenreList();
-                    gl.initGenreList();
+                    gl.initGenreListMovie();
                     for (int n = 0; n<genreArray.length(); n++){
 
 
                         int genreId = genreArray.getInt(n);
-                        String genreName = gl.getGenreWithId(genreId);
+                        String genreName = gl.getMovieGenreWithId(genreId);
                         genres.add(genreName);
                     }
 
@@ -174,9 +171,29 @@ public class QueryUtils {
             } else if(scope == 2){
                 for(int i = 0; i < movieArray.length(); i++) {
                     JSONObject movie = movieArray.getJSONObject(i);
-                    Show movieModel = new Show(movie, 10101010);
+                    Show movieModel = new Show(movie, 1010);
+
+                    List<String> genres = new ArrayList<>();
+                    JSONArray genreArray = movie.getJSONArray("genre_ids");
+                    GenreList gl = new GenreList();
+                    gl.initGenreListMovie();
+                    for (int n = 0; n<genreArray.length(); n++){
+
+                        int genreId = genreArray.getInt(n);
+                        String genreName = gl.getTvGenreWithId(genreId);
+                        if(!genreName.equals("")){
+                            genres.add(genreName);
+                        }
+
+                    }
+
+                    movieModel.setGenres(genres);
+
+                    Log.v(LOG_TAG, "GENRES SAVED " + Arrays.toString(genres.toArray()));
                     results.add(movieModel);
                 }
+
+
             }
 
 
