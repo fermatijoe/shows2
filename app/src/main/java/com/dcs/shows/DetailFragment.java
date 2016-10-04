@@ -1,6 +1,5 @@
 package com.dcs.shows;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -34,6 +33,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.dcs.shows.tasks.ActorAsyncTask;
 import com.dcs.shows.tasks.CreditsAsyncTask;
+import com.dcs.shows.tasks.IMDBAsyncTask;
 import com.dcs.shows.utils.FavoriteUtils;
 import com.dcs.shows.tasks.TrailerAsyncTask;
 import com.google.gson.Gson;
@@ -295,20 +295,9 @@ public class DetailFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void startIMDBActivity(){
-        Intent intent = new Intent(getActivity(), IMDBActivity.class);
-        intent.putExtra(IMDBActivity.EXTRA_MOVIE_ID, mId);
-        startActivityForResult(intent, 555);
-    }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 555 && resultCode == Activity.RESULT_OK && data != null) {
-            launchBrowser(data.getStringExtra(IMDBActivity.EXTRA_MOVIE_ID));
-        }
-    }
-    private void launchBrowser(String id){
+    private void launchBrowserForMovie(String id){
         String trailerUrl = "http://www.imdb.com/title/" + id;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(trailerUrl));
@@ -334,7 +323,7 @@ public class DetailFragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_launch:
-                startIMDBActivity();
+                new Async4().execute(Integer.valueOf(mShow.getShowId()).toString());
                 return true;
             default:
                 break;
@@ -342,6 +331,7 @@ public class DetailFragment extends Fragment {
         return false;
     }
 
+    //shows the list of participating actors
     private class Async1 extends CreditsAsyncTask {
         @Override
         protected void onPostExecute(List<CrewMember> crewMembers) {
@@ -377,7 +367,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
-
+    //opens the trailer (via intent)
     private class Async3 extends TrailerAsyncTask {
         @Override
         protected void onPostExecute(String s) {
@@ -385,6 +375,18 @@ public class DetailFragment extends Fragment {
                 Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
             }else {
                 launchYoutubeForTrailer(s);
+            }
+        }
+    }
+
+    //launches IMDB page for current movie
+    private class Async4 extends IMDBAsyncTask {
+        @Override
+        protected void onPostExecute(String s) {
+            if (s == null) {
+                Toast.makeText(getActivity(), "No IMDB page available", Toast.LENGTH_SHORT).show();
+            }else{
+                launchBrowserForMovie(s);
             }
         }
     }
@@ -447,6 +449,8 @@ public class DetailFragment extends Fragment {
                 String imageUrl = "http://image.tmdb.org/t/p/w130" + currentPerson.getImage();
                 Log.v(LOG_TAG, "one guy image " + imageUrl);
                 Glide.with(getActivity()).load(imageUrl).into(holder.mImageView);
+            }else {
+                Glide.with(getActivity()).load(R.drawable.ic_person_placeholder).into(mImageView);
             }
 
 

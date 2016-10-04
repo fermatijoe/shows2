@@ -2,13 +2,10 @@ package com.dcs.shows.tasks;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.speech.tts.Voice;
 import android.util.Log;
 
-import com.dcs.shows.CrewMember;
 import com.dcs.shows.utils.QueryUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,74 +15,39 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
 
-public class ActorPicturesAsyncTask extends AsyncTask<String, Void, String>{
-    private final String LOG_TAG = ActorPicturesAsyncTask.class.getSimpleName();
-
-    private int getRandomResult(int arrayLength){
-        Random r = new Random();
-        int Low = 1;
-        if(arrayLength != 0){
-            int High = arrayLength;
-            return r.nextInt(High-Low) + Low;
-        }else {
-            return -1;
-        }
-
-    }
+public class IMDBAsyncTask extends AsyncTask<String, Void, String> {
+    private final static String LOG_TAG = IMDBAsyncTask.class.getSimpleName();
 
     private String getTrailersDataFromJson(String jsonStr) throws JSONException {
+        JSONObject imdbJson = new JSONObject(jsonStr);
 
-        try {
-            String outPut;
-            JSONObject rootJSON = new JSONObject(jsonStr);
-            //parse here poster image
-            JSONArray resultsArray = rootJSON.getJSONArray("results");
-            try {
-                int randomNumber = getRandomResult(resultsArray.length());
-                if(randomNumber >= 0){
-                    JSONObject result = resultsArray.getJSONObject(randomNumber);
-                    outPut = result.getString("file_path");
-                    return outPut;
-                }else if (randomNumber == -1){
-                    return null;
-                }
-
-            }catch (IndexOutOfBoundsException e){
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }catch (JSONException e){
-            Log.e(LOG_TAG, "Problem parsing JSON", e);
-        }
-        return null;
+        return imdbJson.getString("imdb_id");
     }
 
-    //params 0 is id
     @Override
     protected String doInBackground(String... params) {
-        if (params[0] == null) {
+
+        if (params.length == 0) {
             return null;
         }
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
+
         String jsonStr = null;
 
         try {
-            //http://api.themoviedb.org/3/person/6885/tagged_images?api_key=480a9e79c0937c9f4e4a129fd0463f96
-            final String BASE_URL = "http://api.themoviedb.org/3/person/" + params[0] + "/tagged_images";
+            //http://api.themoviedb.org/3/tv/62560?api_key=480a9e79c0937c9f4e4a129fd0463f96&page=1
+            final String BASE_URL = "http://api.themoviedb.org/3/movie/" + params[0];
             final String API_KEY_PARAM = "api_key";
 
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY_PARAM, QueryUtils.API_KEY)
                     .build();
+
             URL url = new URL(builtUri.toString());
-            Log.v(LOG_TAG, "built url: " + url);
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -100,6 +62,9 @@ public class ActorPicturesAsyncTask extends AsyncTask<String, Void, String>{
 
             String line;
             while ((line = reader.readLine()) != null) {
+                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                // But it does make debugging a *lot* easier if you print out the completed
+                // buffer for debugging.
                 buffer.append(line + "\n");
             }
 

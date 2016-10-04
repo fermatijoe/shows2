@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.dcs.shows.tasks.ShowDetailAsyncTask;
 import com.dcs.shows.utils.EndlessRecyclerViewScrollListener;
 import com.dcs.shows.utils.FavoriteUtils;
 import com.dcs.shows.utils.QueryUtils;
@@ -348,6 +349,17 @@ public class ListFragment extends Fragment{
 
     }
 
+    private class Async1 extends ShowDetailAsyncTask {
+        @Override
+        protected void onPostExecute(Show show) {
+            Fragment newDetail = DetailFragment.newInstance(show);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container_nested, newDetail)
+                    .addToBackStack("detail")
+                    .commit();
+        }
+    }
+
     private class ShowHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView mImageView;
         public TextView mTextView;
@@ -363,12 +375,11 @@ public class ListFragment extends Fragment{
         public void onClick(View view) {
             int adapterPosition = ShowHolder.this.getAdapterPosition();
             Show s = mShowAdapter.getList().get(adapterPosition);
+            //fetch full show with AsyncTask
 
-            Fragment newDetail = DetailFragment.newInstance(s);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_nested, newDetail)
-                    .addToBackStack("detail")
-                    .commit();
+            new Async1().execute(s.getScope(), Integer.valueOf(s.getShowId()).toString());
+
+
         }
     }
 

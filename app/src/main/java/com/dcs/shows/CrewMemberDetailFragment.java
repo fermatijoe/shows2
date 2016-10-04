@@ -172,7 +172,7 @@ public class CrewMemberDetailFragment extends Fragment {
     private void launchDetailFragment(Show s){
         Fragment newDetail = DetailFragment.newInstance(s);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_nested, newDetail)
+                .replace(R.id.fragment_container, newDetail)
                 .addToBackStack("detail")
                 .commit();
     }

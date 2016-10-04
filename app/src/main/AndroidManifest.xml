@@ -14,13 +14,13 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DATABASE"
-            android:value="new.db"/>
+            android:value="myuniquedatabase.db"/>
         <meta-data
             android:name="VERSION"
             android:value="2"/>
         <meta-data
             android:name="QUERY_LOG"
-            android:value="true"/>
+            android:value="false"/>
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.dcs.shows"/>
@@ -33,10 +33,6 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-
-        <activity android:name=".IMDBActivity"
-                  android:noHistory="true">
         </activity>
 
     </application>

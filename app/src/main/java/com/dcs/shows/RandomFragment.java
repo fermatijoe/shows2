@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.dcs.shows.utils.GenreList;
 import com.dcs.shows.utils.QueryUtils;
 import com.dcs.shows.utils.RandomUtil;
 
@@ -85,7 +86,7 @@ public class RandomFragment extends Fragment {
         Fragment newDetail = DetailFragment.newInstance(s);
         if(getActivity() != null && isAdded()){
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_nested, newDetail) // add to back stack?
+                    .replace(R.id.container_nested, newDetail) // add to back stack?
                     .addToBackStack("detail")
                     .commit();
         }
@@ -125,6 +126,19 @@ public class RandomFragment extends Fragment {
                             //get another object
                             continue;
                         }else{
+                            List<String> genres = new ArrayList<>();
+                            JSONArray genreArray = movie.getJSONArray("genre_ids");
+                            GenreList gl = new GenreList();
+                            gl.initGenreListMovie();
+                            for (int n = 0; n<genreArray.length(); n++){
+
+
+                                int genreId = genreArray.getInt(n);
+                                String genreName = gl.getMovieGenreWithId(genreId);
+                                genres.add(genreName);
+                            }
+
+                            movieModel.setGenres(genres);
                             return movieModel;
                         }
                     }
@@ -141,7 +155,23 @@ public class RandomFragment extends Fragment {
                             //get another object
                             continue;
                         }else{
+                            List<String> genres = new ArrayList<>();
+                            JSONArray genreArray = movie.getJSONArray("genre_ids");
+                            GenreList gl = new GenreList();
+                            gl.initGenreListMovie();
+                            for (int n = 0; n<genreArray.length(); n++){
+
+                                int genreId = genreArray.getInt(n);
+                                String genreName = gl.getTvGenreWithId(genreId);
+                                if(!genreName.equals("")){
+                                    genres.add(genreName);
+                                }
+
+                            }
+
+                            movieModel.setGenres(genres);
                             return movieModel;
+
                         }
                     }
                 }
@@ -171,6 +201,7 @@ public class RandomFragment extends Fragment {
 
             try {
                 URL url = new URL(params[0]);
+                Log.v(LOG_TAG, "" + url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
