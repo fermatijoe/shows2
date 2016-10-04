@@ -7,6 +7,7 @@ Used libraries:
 * Gson for passing data between fragments
 * SugarORM for database integration 
 * Google's design, appcompat, cardview, recyclerview and palette libraries
+* github.com/hdodenhof/CircleImageView for actor's profile page
 
 
 ## Changelog
