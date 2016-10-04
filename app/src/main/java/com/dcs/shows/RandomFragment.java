@@ -87,7 +87,6 @@ public class RandomFragment extends Fragment {
         if(getActivity() != null && isAdded()){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container_nested, newDetail) // add to back stack?
-                    .addToBackStack("detail")
                     .commit();
         }
 

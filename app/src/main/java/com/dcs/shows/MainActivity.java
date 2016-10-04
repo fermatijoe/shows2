@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         Fragment newDetail = RandomFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)
+                .addToBackStack("random")
                 .commit();
     }
 

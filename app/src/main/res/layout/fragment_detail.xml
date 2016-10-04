@@ -70,11 +70,12 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
 
                             <FrameLayout
-                                android:layout_width="100dp"
-                                android:layout_height="193dp">
+                                android:layout_width="124dp"
+                                android:layout_height="186dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -87,10 +88,11 @@
                                     />
 
                                 <ImageView
+                                    android:scaleType="centerCrop"
                                     android:layout_marginTop="16dp"
                                     android:layout_marginLeft="16dp"
-                                    android:layout_width="100dp"
-                                    android:layout_height="193dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:id="@+id/detail_image_poster"/>
 
 

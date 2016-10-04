@@ -82,6 +82,7 @@ public class ShowDetailAsyncTask extends AsyncTask<String, Void, Show> {
 
     //params 0 is scope
     //params 1 is id
+    //params 2 is language
     @Override
     protected Show doInBackground(String... params) {
         if (params[0] == null) {
@@ -102,6 +103,7 @@ public class ShowDetailAsyncTask extends AsyncTask<String, Void, Show> {
                     .appendPath(params[0])
                     .appendPath(params[1])
                     .appendQueryParameter(API_KEY_PARAM, QueryUtils.API_KEY)
+                    .appendQueryParameter("language", params[2])
                     .build();
             URL url = new URL(builtUri.toString());
             Log.v(LOG_TAG, "built url: " + url);

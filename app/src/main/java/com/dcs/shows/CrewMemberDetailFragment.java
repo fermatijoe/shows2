@@ -82,7 +82,7 @@ public class CrewMemberDetailFragment extends Fragment {
             Glide.with(getActivity()).load(mCrewMember.getImage()).into(mProfileImageView);
         }else {
             //load placehodler profile pic
-            Glide.with(getActivity()).load(R.drawable.ic_person_placeholder).into(mProfileImageView);
+            mProfileImageView.setImageResource(R.drawable.ic_person_placeholder);
         }
 
         mNametextView.setText(mCrewMember.getName());

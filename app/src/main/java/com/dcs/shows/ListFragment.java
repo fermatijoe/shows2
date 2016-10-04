@@ -377,7 +377,7 @@ public class ListFragment extends Fragment{
             Show s = mShowAdapter.getList().get(adapterPosition);
             //fetch full show with AsyncTask
 
-            new Async1().execute(s.getScope(), Integer.valueOf(s.getShowId()).toString());
+            new Async1().execute(s.getScope(), Integer.valueOf(s.getShowId()).toString(), mLanguage);
 
 
         }

@@ -450,7 +450,7 @@ public class DetailFragment extends Fragment {
                 Log.v(LOG_TAG, "one guy image " + imageUrl);
                 Glide.with(getActivity()).load(imageUrl).into(holder.mImageView);
             }else {
-                Glide.with(getActivity()).load(R.drawable.ic_person_placeholder).into(mImageView);
+                holder.mImageView.setImageResource(R.drawable.ic_person_placeholder);
             }
 
 
