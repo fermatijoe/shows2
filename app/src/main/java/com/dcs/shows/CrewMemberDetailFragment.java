@@ -194,7 +194,11 @@ public class CrewMemberDetailFragment extends Fragment {
             int adapterPosition = MovieHolder.this.getAdapterPosition();
             Show s = mMovieAdapter.getList().get(adapterPosition);
             String stringId = Integer.valueOf(s.getShowId()).toString();
-            new Async3().execute(s.getScope(), stringId);
+            //add language as third parameter
+            String lang;
+            lang = MainActivity.getSystemLanguage();
+            lang = lang.replace("_", "-");
+            new Async3().execute(s.getScope(), stringId, lang);
         }
     }
 

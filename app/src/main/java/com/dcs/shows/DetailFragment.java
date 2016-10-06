@@ -407,7 +407,10 @@ public class DetailFragment extends Fragment {
         public void onClick(View view) {
             int adapterPosition = DetailFragment.PersonHolder.this.getAdapterPosition();
             //Open ActorAsyncTask and from its onPostExecute launch the IMDB page
-            new Async2().execute(mPersonAdapter.getList().get(adapterPosition).getPersonId());
+            String lang;
+            lang = MainActivity.getSystemLanguage();
+            lang = lang.replace("_", "-");
+            new Async2().execute(mPersonAdapter.getList().get(adapterPosition).getPersonId(), lang);
         }
     }
 

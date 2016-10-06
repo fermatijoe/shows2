@@ -33,6 +33,7 @@ public class ActorAsyncTask extends AsyncTask<String, Void, CrewMember> {
     }
 
     //params 0 is id
+    //params 1 is language
     @Override
     protected CrewMember doInBackground(String... params) {
         if (params[0] == null) {
@@ -51,6 +52,7 @@ public class ActorAsyncTask extends AsyncTask<String, Void, CrewMember> {
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY_PARAM, QueryUtils.API_KEY)
+                    .appendQueryParameter("language", params[1])
                     .build();
             URL url = new URL(builtUri.toString());
             Log.v(LOG_TAG, "built url: " + url);

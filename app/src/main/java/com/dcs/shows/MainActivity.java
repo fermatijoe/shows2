@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity
     public final static int LAUNCH_FAV = 3;
     public final static int LAUNCH_COMING_SOON = 4;
 
+    private final static String LOG_TAG = MainActivity.class.getSimpleName();
+
 
 
 
@@ -76,10 +78,9 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG");
                     if (listFragment != null) {
-                        Log.v("backstackBUG", "Resetting toolbar");
                         listFragment.resetToolbar();
                     }
                 }

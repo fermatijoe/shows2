@@ -282,13 +282,20 @@ public class ListFragment extends Fragment{
         getActivity().getMenuInflater().inflate(R.menu.main, menu);
 
         if(mScope == 3){
-            //disable ordering
+            //disable ordering and search
             MenuItem itemToHide1 = menu.findItem(R.id.action_sort_top);
             MenuItem itemToHide2 = menu.findItem(R.id.action_sort_popular);
             MenuItem itemToHide3 = menu.findItem(R.id.action_search);
             itemToHide1.setVisible(false);
             itemToHide2.setVisible(false);
             itemToHide3.setVisible(false);
+        }
+        if(mScope == 4){
+            //disable ordering
+            MenuItem itemToHide1 = menu.findItem(R.id.action_sort_top);
+            MenuItem itemToHide2 = menu.findItem(R.id.action_sort_popular);
+            itemToHide1.setVisible(false);
+            itemToHide2.setVisible(false);
         }
 
         if(mScope != 3){
