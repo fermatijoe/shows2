@@ -45,7 +45,7 @@ public class ActorAsyncTask extends AsyncTask<String, Void, CrewMember> {
         String jsonStr = null;
 
         try {
-            //https://api.themoviedb.org/3/person/591882?api_key=480a9e79c0937c9f4e4a129fd0463f96&language=en-US
+            //https://api.themoviedb.org/3/person/591882?api_key=API KEY HERE&language=en-US
             final String BASE_URL = "http://api.themoviedb.org/3/person/" + params[0];
             final String API_KEY_PARAM = "api_key";
 

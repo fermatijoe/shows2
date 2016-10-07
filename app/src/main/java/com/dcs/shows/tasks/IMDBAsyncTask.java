@@ -38,7 +38,7 @@ public class IMDBAsyncTask extends AsyncTask<String, Void, String> {
         String jsonStr = null;
 
         try {
-            //http://api.themoviedb.org/3/tv/62560?api_key=480a9e79c0937c9f4e4a129fd0463f96&page=1
+            //http://api.themoviedb.org/3/tv/62560?api_key=API KEY HERE&page=1
             final String BASE_URL = "http://api.themoviedb.org/3/movie/" + params[0];
             final String API_KEY_PARAM = "api_key";
 

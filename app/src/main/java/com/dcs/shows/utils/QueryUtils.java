@@ -3,6 +3,7 @@ package com.dcs.shows.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dcs.shows.BuildConfig;
 import com.dcs.shows.Show;
 
 import org.json.JSONArray;
@@ -24,7 +25,7 @@ import java.util.List;
 public class QueryUtils {
 
     public static final String LOG_TAG = QueryUtils.class.getName();
-    public final static String API_KEY = "480a9e79c0937c9f4e4a129fd0463f96";
+    public final static String API_KEY = BuildConfig.TMDB_API_KEY;
     /**
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
      * This class is only meant to hold static variables and methods, which can be accessed

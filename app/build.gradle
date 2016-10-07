@@ -10,6 +10,7 @@ android {
         targetSdkVersion 24
         versionCode 14
         versionName "2.0.5"
+        buildConfigField("String", "TMDB_API_KEY", TMDB_API_KEY)
     }
     buildTypes {
         release {

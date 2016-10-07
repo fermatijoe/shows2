@@ -98,7 +98,6 @@ public class SearchFragment extends Fragment {
     public class SearchMoviesTask extends AsyncTask<String, Void, List<Show>> {
 
         private final String LOG_TAG = SearchMoviesTask.class.getSimpleName();
-        private final static String API_KEY = "480a9e79c0937c9f4e4a129fd0463f96";
 
 
 
