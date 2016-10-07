@@ -359,11 +359,13 @@ public class ListFragment extends Fragment{
     private class Async1 extends ShowDetailAsyncTask {
         @Override
         protected void onPostExecute(Show show) {
-            Fragment newDetail = DetailFragment.newInstance(show);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_nested, newDetail)
-                    .addToBackStack("detail")
-                    .commit();
+            if(getActivity() != null){
+                Fragment newDetail = DetailFragment.newInstance(show);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container_nested, newDetail)
+                        .addToBackStack("detail")
+                        .commit();
+            }
         }
     }
 
