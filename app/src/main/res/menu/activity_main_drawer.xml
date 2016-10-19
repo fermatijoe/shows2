@@ -12,20 +12,24 @@
         android:id="@+id/g1">
         <item
             android:id="@+id/nav_movies"
-            android:title="@string/nav_movies"/>
+            android:title="@string/nav_movies"
+            android:icon="@drawable/ic_local_movies_black_24dp"/>
         <item
             android:id="@+id/nav_tv"
-            android:title="@string/nav_tv"/>
+            android:title="@string/nav_tv"
+            android:icon="@drawable/ic_tv_black_24dp"/>
         <item
             android:id="@+id/nav_favs"
-            android:title="@string/nav_fav"/>
+            android:title="@string/nav_fav"
+            android:icon="@drawable/ic_hearth_full"/>
     </group>
 
     <group android:id="@+id/g2"
            android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_random"
-            android:title="@string/nav_random" />
+            android:title="@string/nav_random"
+            android:icon="@drawable/ic_shuffle_black_24dp"/>
     </group>
 
 

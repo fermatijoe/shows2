@@ -143,7 +143,8 @@ public class MainActivity extends AppCompatActivity
     private void showAboutDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("About this app");
-        alertDialog.setMessage("This product uses the TMDb API but is not endorsed or certified by TMDb.\nwww.themoviedb.org");
+        alertDialog.setMessage("The Spanish translation was kindly provided by: octarino " +
+                "\n\nThis product uses the TMDb API but is not endorsed or certified by TMDb.\nwww.themoviedb.org");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
