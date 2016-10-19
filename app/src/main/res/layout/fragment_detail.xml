@@ -190,6 +190,7 @@
                     android:layout_height="wrap_content"
                     android.support.design:fabSize="normal"
                     android:id="@+id/trailer_fab"
+                    android.support.design:backgroundTint="#E53935"
                     android:src="@drawable/ic_play_arrow_black"
                     android:layout_marginTop="110dp"
                     android:layout_marginRight="27dp"

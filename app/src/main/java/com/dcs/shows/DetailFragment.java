@@ -3,6 +3,7 @@ package com.dcs.shows;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -180,7 +181,7 @@ public class DetailFragment extends Fragment {
                                     if(p != null && p.getDarkVibrantSwatch() != null){
                                         int darkVibrantSwatch = p.getDarkVibrantSwatch().getRgb();
 
-                                        mTrailerFAB.setBackgroundTintList(ColorStateList.valueOf(darkVibrantSwatch));
+                                        setTrailerFABColor(darkVibrantSwatch);
 
                                         setToolbarColor(darkVibrantSwatch);
                                         ((AppCompatActivity) getActivity())
@@ -269,6 +270,35 @@ public class DetailFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    private void setTrailerFABColor(int paletteColor){
+        mTrailerFAB.setBackgroundTintList(ColorStateList.valueOf(paletteColor));
+        if(isColorBright(paletteColor)){
+            mTrailerFAB.setImageResource(R.drawable.ic_play_arrow_black);
+        }else {
+            mTrailerFAB.setImageResource(R.drawable.ic_play_arrow_white);
+        }
+
+    }
+
+    public static boolean isColorBright(int color) {
+        if (android.R.color.transparent == color)
+            return true;
+
+        boolean rtnValue = false;
+
+        int[] rgb = { Color.red(color), Color.green(color), Color.blue(color) };
+
+        int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
+                * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
+
+        // color is light
+        if (brightness >= 200) {
+            rtnValue = true;
+        }
+
+        return rtnValue;
     }
 
     private void setToolbarColor(int color){
