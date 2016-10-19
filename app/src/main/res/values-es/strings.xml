@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">sugerencias de cine y televisión</string>
-    <string name="nav_fav">favoritos</string>
+    <string name="app_name">Sugerencias de cine y televisión</string>
+
     <string name="nav_movies">Películas</string>
-    <string name="nav_random">Casual</string>
-    <string name="nav_tv">Programas de televisión</string>
-    <string name="sort_popular">Ordenar por populares</string>
-    <string name="sort_top">Ordenar por mejor</string>
+    <string name="nav_tv">Televisión</string>
+    <string name="nav_fav">Favoritos</string>
+    <string name="nav_random">Aleatorio</string>
     <string name="nav_coming_soon">Próximamente</string>
+    
+    <string name="sort_top">Ordenar por mejor</string>
+    <string name="sort_popular">Ordenar por populares</string>
+    
+    <string name="error_no_overview">No hay descripción disponible</string>
+    
+    <string name="genres">Géneros</string>
     <string name="Action">Acción</string>
     <string name="Adventure">Aventuras</string>
     <string name="Animation">Animación</string>
@@ -17,16 +23,16 @@
     <string name="Drama">Drama</string>
     <string name="Family">Familia</string>
     <string name="Fantasy">Fantasía</string>
-    <string name="Foreign">Exterior</string>
+    <string name="Foreign">Extranjeras</string>
     <string name="History">Historia</string>
     <string name="Horror">Horror</string>
     <string name="Music">Música</string>
     <string name="Mystery">Misterio</string>
-    <string name="Romance">Romántico</string>
+    <string name="Romance">Romance</string>
     <string name="Science_Fiction">Ciencia ficción</string>
-    <string name="TV_Movie">TV Movie</string>
-    <string name="Thriller">Novela de suspenso</string>
+    <string name="TV_Movie">Telefilme</string>
+    <string name="Thriller">Suspense</string>
     <string name="War">Guerra</string>
-    <string name="error_no_overview">No hay descripción disponible</string>
-    <string name="genres">Géneros</string>
+    
+    
 </resources>
