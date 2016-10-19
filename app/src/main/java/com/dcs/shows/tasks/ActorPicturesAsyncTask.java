@@ -28,7 +28,16 @@ public class ActorPicturesAsyncTask extends AsyncTask<String, Void, String>{
         int Low = 1;
         if(arrayLength != 0){
             int High = arrayLength;
-            return r.nextInt(High-Low) + Low;
+            int returned;
+            if(High-Low == 0){
+                return 0;
+            }else {
+                returned = r.nextInt(High-Low) + Low;
+            }
+
+            return returned;
+
+
         }else {
             return -1;
         }

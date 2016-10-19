@@ -8,8 +8,8 @@ android {
         applicationId "com.dcs.shows"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 14
-        versionName "2.0.5"
+        versionCode 15
+        versionName "2.1"
         buildConfigField("String", "TMDB_API_KEY", TMDB_API_KEY)
     }
     buildTypes {
@@ -41,6 +41,12 @@ dependencies {
 
     compile 'com.google.firebase:firebase-ads:9.4.0'
     compile 'com.google.firebase:firebase-core:9.4.0'
+
+    compile 'com.google.android.gms:play-services-base:9.4.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.4.0'
+
+    compile 'com.batch.android:batch-sdk:1.5+'
 }
 apply plugin: 'com.google.gms.google-services'
 

@@ -170,6 +170,7 @@ public class CrewMemberDetailFragment extends Fragment {
     }
 
     private void launchDetailFragment(Show s){
+        Log.v(LOG_TAG, "showId passed to DetailFragment: " + s.getShowId());
         Fragment newDetail = DetailFragment.newInstance(s);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)

@@ -59,7 +59,8 @@ public class DetailFragment extends Fragment {
     private FloatingActionButton mTrailerFAB;
     private FloatingActionButton mFloatingActionButton;
     private boolean fabChecked = false;
-    private String mScope, mLanguage, mId;
+    private String mScope, mLanguage;
+    private static String mId;
     private CardView mLoadMorecardView, mMoreCardView1, mMoreCardView2;
     private RecyclerView mRecyclerView;
     private DetailFragment.PersonAdapter mPersonAdapter;
@@ -89,14 +90,17 @@ public class DetailFragment extends Fragment {
         mLanguage = MainActivity.getSystemLanguage();
         mLanguage = mLanguage.replace("_", "-");
         getActivity().setTitle(mShow.getTitle());
-
+        mId = Integer.valueOf(mShow.getShowId()).toString();
+        Log.v(LOG_TAG, "DetailFragment onStart, Id is " + mId);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        mId = Integer.valueOf(mShow.getShowId()).toString();
+
 
         mLoadMoreImageView = (ImageView) rootView.findViewById(R.id.load_more_imageView);
         mImageViewPoster = (ImageView) rootView.findViewById(R.id.detail_image_poster);
@@ -166,7 +170,7 @@ public class DetailFragment extends Fragment {
                     .with(this)
                     .load(image_url_poster)
                     .asBitmap()
-                    .into(new SimpleTarget<Bitmap>(100,193) {
+                    .into(new SimpleTarget<Bitmap>(124,186) {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                             mImageViewPoster.setImageBitmap(resource);
@@ -298,10 +302,8 @@ public class DetailFragment extends Fragment {
 
 
     private void launchBrowserForMovie(String id){
-        String trailerUrl = "http://www.imdb.com/title/" + id;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(trailerUrl));
-        startActivity(intent);
+        Log.v(LOG_TAG, "id recieved by intent: " + id);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.imdb.com/title/" + id)));
     }
 
     private void launchBrowserForActor(String id){
@@ -318,12 +320,16 @@ public class DetailFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void fetchIMDBId(String mId){
+        Log.v(LOG_TAG, "starting IMDBAsyncTask with id " + mId);
+        new Async4().execute(mId);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_launch:
-                new Async4().execute(Integer.valueOf(mShow.getShowId()).toString());
+                fetchIMDBId(this.mId);
                 return true;
             default:
                 break;

@@ -48,6 +48,7 @@ public class IMDBAsyncTask extends AsyncTask<String, Void, String> {
                     .build();
 
             URL url = new URL(builtUri.toString());
+            Log.v(LOG_TAG, "IMDBAsyncTask recieved id : " + url);
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
