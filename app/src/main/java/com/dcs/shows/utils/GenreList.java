@@ -15,6 +15,7 @@ import static com.dcs.shows.R.string.Documentary;
 import static com.dcs.shows.R.string.Drama;
 import static com.dcs.shows.R.string.Family;
 import static com.dcs.shows.R.string.Mystery;
+import static com.dcs.shows.R.string.default_web_client_id;
 
 public class GenreList {
     private Context c;
@@ -27,7 +28,7 @@ public class GenreList {
     public void initGenreListMovie(){
         this.c = App.getContext();
         genres = new ArrayList<>();
-        genres.add("help me god");
+        genres.add(c.getString(R.string.genres));
         genres.add(c.getString(R.string.Action));
         genres.add(c.getString(R.string.Adventure));
         genres.add(c.getString(R.string.Animation));
@@ -48,6 +49,67 @@ public class GenreList {
         genres.add(c.getString(R.string.Thriller));
         genres.add(c.getString(R.string.War));
         genres.add("Western");
+    }
+
+    public List<String> getGenresList(){
+        return genres;
+    }
+
+    public String getIdGenreWithMovie(String[] genres){
+        String output = "";
+        for(String s : genres){
+            String id = associateNameWithId(s);
+            output = output + id + ",";
+        }
+        if(output.substring(output.length() - 1).equals(",")){
+            output = output.substring(0, output.length()-1);
+        }
+        return output;
+    }
+
+    public String associateNameWithId(String text){
+        if (text.equals(c.getString(R.string.Action))) {
+            return "28";
+        } else if (text.equals(c.getString(R.string.Adventure))) {
+            return "12";
+        } else if (text.equals(c.getString(R.string.Animation))) {
+            return "16";
+        } else if (text.equals(c.getString(R.string.Comedy))) {
+            return "35";
+        } else if (text.equals(c.getString(R.string.Crime))) {
+            return "80";
+        } else if (text.equals(c.getString(R.string.Documentary))) {
+            return "99";
+        } else if (text.equals(c.getString(R.string.Drama))) {
+            return "18";
+        } else if (text.equals(c.getString(R.string.Family))) {
+            return "10751";
+        } else if (text.equals(c.getString(R.string.Fantasy))) {
+            return "14";
+        } else if (text.equals(c.getString(R.string.History))) {
+            return "36";
+        } else if (text.equals(c.getString(R.string.Horror))) {
+            return "27";
+        } else if (text.equals(c.getString(R.string.Music))) {
+            return "10402";
+        } else if (text.equals(c.getString(R.string.Mystery))) {
+            return "9648";
+        } else if (text.equals(c.getString(R.string.Romance))) {
+            return "10749";
+        } else if (text.equals(c.getString(R.string.Science_Fiction))) {
+            return "878";
+        } else if (text.equals(c.getString(R.string.TV_Movie))) {
+            return "10770";
+        } else if (text.equals(c.getString(R.string.Thriller))) {
+            return "53";
+        } else if (text.equals(c.getString(R.string.War))) {
+            return "10752";
+        } else if (text.equals("Western")) {
+            return "37";
+        } else {
+            return genres.get(1);
+        }
+
     }
 
     public String getTvGenreWithId(int id){

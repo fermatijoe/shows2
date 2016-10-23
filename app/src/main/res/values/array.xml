@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scopeItems">
+        <item>@string/nav_movies</item>
+        <item>@string/nav_tv</item>
+    </string-array>
+
+    <string-array name="startYearItems">
+        <item>@string/from</item>
+    </string-array>
+    <string-array name="endYearItems">
+        <item>@string/to</item>
+    </string-array>
+
+
+
+</resources>

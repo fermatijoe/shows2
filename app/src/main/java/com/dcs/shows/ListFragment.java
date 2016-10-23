@@ -43,10 +43,11 @@ import java.util.List;
 public class ListFragment extends Fragment{
     private static final String LOG_TAG = ListFragment.class.getSimpleName();
     private static final String ARG_SCOPE = "com.dcs.shows.activity_to_launch";
+    private static final String ARG_URL = "com.dcs.shows.url_bypass";
     private static final String BASE_URL = "http://api.themoviedb.org/3";
 
 
-    private String mCurrentSortPreference = "popular", mLanguage;
+    private String mCurrentSortPreference = "popular", mLanguage, mBypassUrl;
     private TextView mTextView;
     private ProgressBar mProgressBar;
     public int mScope;
@@ -56,9 +57,10 @@ public class ListFragment extends Fragment{
 
 
 
-    public static ListFragment newInstance(int target) {
+    public static ListFragment newInstance(int target, String bypassUrl) {
         Bundle args = new Bundle();
         args.putInt(ARG_SCOPE, target);
+        args.putString(ARG_URL, bypassUrl);
         ListFragment fragment = new ListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,6 +75,7 @@ public class ListFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mScope = getArguments().getInt(ARG_SCOPE);
+        mBypassUrl = getArguments().getString(ARG_URL);
         setHasOptionsMenu(true);
         mLanguage = MainActivity.getSystemLanguage();
         mLanguage = mLanguage.replace("_", "-");
@@ -102,53 +105,64 @@ public class ListFragment extends Fragment{
         mTextView = (TextView) rootView.findViewById(R.id.empty_view);
         mProgressBar = (ProgressBar)rootView.findViewById(R.id.progress_view);
 
-        switch (mScope){
-            case 1:
-                getActivity().setTitle(R.string.nav_movies);
-                if(checkConnectivity()){
-                    anotherOne(1, mScope, mCurrentSortPreference, false);
-                }else {
-                    mTextView.setVisibility(View.VISIBLE);
-                    mTextView.setText("No internet connection");
-                    mProgressBar.setVisibility(View.GONE);
-                }
-                break;
-            case 2:
-                getActivity().setTitle(R.string.nav_tv);
-                if(checkConnectivity()){
-                    anotherOne(1, mScope, mCurrentSortPreference, false);
-                }else {
-                    mTextView.setVisibility(View.VISIBLE);
-                    mTextView.setText("No internet connection");
-                    mProgressBar.setVisibility(View.GONE);
-                }
-                break;
-            case 3:
-                getActivity().setTitle(R.string.nav_fav);
-                List<Show> favList = FavoriteUtils.getAllFavorites();
+        if(mBypassUrl != null && mBypassUrl.length() == 0) {
+            switch (mScope) {
+                case 1:
+                    getActivity().setTitle(R.string.nav_movies);
+                    if (checkConnectivity()) {
+                        anotherOne(1, mScope, mCurrentSortPreference, false);
+                    } else {
+                        mTextView.setVisibility(View.VISIBLE);
+                        mTextView.setText("No internet connection");
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                    break;
+                case 2:
+                    getActivity().setTitle(R.string.nav_tv);
+                    if (checkConnectivity()) {
+                        anotherOne(1, mScope, mCurrentSortPreference, false);
+                    } else {
+                        mTextView.setVisibility(View.VISIBLE);
+                        mTextView.setText("No internet connection");
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                    break;
+                case 3:
+                    getActivity().setTitle(R.string.nav_fav);
+                    List<Show> favList = FavoriteUtils.getAllFavorites();
 
-                if(favList.size() == 0){
-                    mProgressBar.setVisibility(View.GONE);
-                    mTextView.setVisibility(View.VISIBLE);
-                    mTextView.setText("No favorites");
-                }else {
-                    mShowAdapter.addItemsToList(favList, false);
-                    mProgressBar.setVisibility(View.GONE);
-                }
-                break;
-            case 4:
-                //coming soon list
-                getActivity().setTitle(R.string.nav_coming_soon);
+                    if (favList.size() == 0) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mTextView.setVisibility(View.VISIBLE);
+                        mTextView.setText("No favorites");
+                    } else {
+                        mShowAdapter.addItemsToList(favList, false);
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                    break;
+                case 4:
+                    //coming soon list
+                    getActivity().setTitle(R.string.nav_coming_soon);
 
-                if(checkConnectivity()){
-                    anotherOne(1, mScope, mCurrentSortPreference, false);
-                }else {
-                    mTextView.setVisibility(View.VISIBLE);
-                    mTextView.setText("No internet connection");
-                    mProgressBar.setVisibility(View.GONE);
-                }
-                break;
+                    if (checkConnectivity()) {
+                        anotherOne(1, mScope, mCurrentSortPreference, false);
+                    } else {
+                        mTextView.setVisibility(View.VISIBLE);
+                        mTextView.setText("No internet connection");
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                    break;
 
+            }
+        }else {
+            if (checkConnectivity()) {
+                (new FetchMoviesTask()).execute(Integer.valueOf(1).toString(),
+                        Integer.valueOf(mScope).toString(), mCurrentSortPreference, "true", mBypassUrl);
+            } else {
+                mTextView.setVisibility(View.VISIBLE);
+                mTextView.setText("No internet connection");
+                mProgressBar.setVisibility(View.GONE);
+            }
         }
 
 
@@ -162,10 +176,14 @@ public class ListFragment extends Fragment{
     }
 
     private void anotherOne(int currPage, int scope, String sort, boolean o){
-        String override = Boolean.valueOf(o).toString();
-        (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
-                Integer.valueOf(scope).toString(), sort, override);
-
+        if(mBypassUrl != null && mBypassUrl.length() > 0){
+            (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
+                    Integer.valueOf(mScope).toString(), mCurrentSortPreference, "false", mBypassUrl);
+        }else {
+            String override = Boolean.valueOf(o).toString();
+            (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
+                    Integer.valueOf(scope).toString(), sort, override, "");
+        }
     }
 
     public void resetToolbar(){
@@ -221,31 +239,40 @@ public class ListFragment extends Fragment{
             //params 0 = page to load. should be always >1 and !=0
             //params 1 = mScope. should be 1(movies) or 2(tv shows) or 4(coming soon list)
             //params 2 = order to load. should be "popular" or "top_rated".
+            //params 3 = wheter the results should override the current shown movies
+            //params 4 = if present, it is the url with which the query will be built. Use only if you are debugging
             if(params[3].equals("true")){
                 override = true;
             }
-            Uri baseUri = Uri.parse(BASE_URL);
-            Uri.Builder uriBuilder = baseUri.buildUpon();;
 
-            if(params[1].equals("4")){
-                uriBuilder.appendPath("movie");
-                uriBuilder.appendPath("upcoming");
-                uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
-                uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
-                uriBuilder.appendQueryParameter("language", mLanguage); //user language
-            }else{
-                uriBuilder.appendPath(getLiteralScope(params[1])); //movie or tv?
-                uriBuilder.appendPath(params[2]); //sort order
-                uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
-                uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
-                uriBuilder.appendQueryParameter("language", mLanguage); //user language
+            if(params[4] != null && params[4].length() != 0){
+
+                return QueryUtils.fetchEarthquakeData(params[4], params[1]);
+            }else {
+                Uri baseUri = Uri.parse(BASE_URL);
+                Uri.Builder uriBuilder = baseUri.buildUpon();
+
+                if(params[1].equals("4")){
+                    uriBuilder.appendPath("movie");
+                    uriBuilder.appendPath("upcoming");
+                    uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
+                    uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
+                    uriBuilder.appendQueryParameter("language", mLanguage); //user language
+                }else{
+                    uriBuilder.appendPath(getLiteralScope(params[1])); //movie or tv?
+                    uriBuilder.appendPath(params[2]); //sort order
+                    uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY); // api key
+                    uriBuilder.appendQueryParameter("page", params[0]); //load a new page?
+                    uriBuilder.appendQueryParameter("language", mLanguage); //user language
+                }
+
+
+
+                Log.v(LOG_TAG, "onCreateLoader@URL built: " + uriBuilder.toString());
+                return QueryUtils.fetchEarthquakeData(uriBuilder.toString(), params[1]);
             }
 
 
-
-            Log.v(LOG_TAG, "onCreateLoader@URL built: " + uriBuilder.toString());
-
-            return QueryUtils.fetchEarthquakeData(uriBuilder.toString(), params[1]);
         }
 
         @Override

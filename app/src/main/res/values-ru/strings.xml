@@ -29,4 +29,9 @@
     <string name="War">война</string>
     <string name="error_no_overview">Нет описания</string>
     <string name="genres">Жанры</string>
+    <string name="from">Из</string>
+    <string name="to">к</string>
+    <string name="range">интервал</string>
+    <string name="Actor_name">название Актер</string>
+    <string name="Actor_search">поиск Актер</string>
 </resources>

@@ -30,6 +30,10 @@
             android:id="@+id/nav_random"
             android:title="@string/nav_random"
             android:icon="@drawable/ic_shuffle_black_24dp"/>
+        <item
+            android:id="@+id/nav_search"
+            android:title="Advanced search"
+            android:icon="@drawable/ic_lens_black"/>
     </group>
 
 

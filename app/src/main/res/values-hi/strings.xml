@@ -29,4 +29,9 @@
     <string name="War">युद्ध</string>
     <string name="error_no_overview">कोई वर्णन उपलब्ध नहीं</string>
     <string name="genres">शैलियों</string>
+    <string name="from">से</string>
+    <string name="to">सेवा मेरे</string>
+    <string name="range">मध्यान्तर</string>
+    <string name="Actor_name">अभिनेता नाम</string>
+    <string name="Actor_search">अभिनेता खोजें</string>
 </resources>

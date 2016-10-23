@@ -29,4 +29,9 @@
     <string name="War">حرب</string>
     <string name="error_no_overview">لا يوجد وصف متاح</string>
     <string name="genres">الأنواع</string>
+    <string name="from">من عند</string>
+    <string name="to">إلى</string>
+    <string name="range">فترة</string>
+    <string name="Actor_name">اسم الفاعل</string>
+    <string name="Actor_search">بحث الممثل</string>
 </resources>

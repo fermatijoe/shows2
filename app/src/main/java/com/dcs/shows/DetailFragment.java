@@ -92,7 +92,6 @@ public class DetailFragment extends Fragment {
         mLanguage = mLanguage.replace("_", "-");
         getActivity().setTitle(mShow.getTitle());
         mId = Integer.valueOf(mShow.getShowId()).toString();
-        Log.v(LOG_TAG, "DetailFragment onStart, Id is " + mId);
     }
 
 
@@ -197,7 +196,9 @@ public class DetailFragment extends Fragment {
 
         mTitleView.setText(mShow.getTitle());
 
-        if(mShow.getOverview() == null || mShow.getOverview().equals("")){
+        if(mShow.getOverview() == null
+                || mShow.getOverview().equals("")
+                || mShow.getOverview().equals("null")){
             mOverviewView.setText(R.string.error_no_overview);
         }else {
             mOverviewView.setText(mShow.getOverview());
@@ -219,14 +220,7 @@ public class DetailFragment extends Fragment {
         mTrailerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentMovieId = Integer.valueOf(mShow.getShowId()).toString();
-                String scope = mShow.getScope();
-                if(scope == null || currentMovieId == null){
-                    Log.e("TrailerActivity", "null arguments, s : " + scope + ", id: " + currentMovieId);
-                    Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
-                }else {
-                    new Async3().execute(currentMovieId, scope);
-                }
+                getTrailer(mLanguage);
             }
         });
 
@@ -270,6 +264,17 @@ public class DetailFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    private void getTrailer(String lang){
+        String currentMovieId = Integer.valueOf(mShow.getShowId()).toString();
+        String scope = mShow.getScope();
+        if(scope == null || currentMovieId == null){
+            Log.e("TrailerActivity", "null arguments, s : " + scope + ", id: " + currentMovieId);
+            Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
+        }else {
+            new Async3().execute(currentMovieId, scope, lang);
+        }
     }
 
     private void setTrailerFABColor(int paletteColor){
@@ -408,9 +413,15 @@ public class DetailFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             if (s == null) {
-                Toast.makeText(getActivity(), "No trailers available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "No trailers found", Toast.LENGTH_SHORT).show();
             }else {
-                launchYoutubeForTrailer(s);
+                if (s.equals("no_locale_trailer")){
+                    //retry with english trailer
+                    getTrailer("en-US");
+                }else {
+                    launchYoutubeForTrailer(s);
+                }
+
             }
         }
     }

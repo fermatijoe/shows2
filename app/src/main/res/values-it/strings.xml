@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Film e Tv suggerimenti</string>
+    <string name="app_name">Suggerimenti Film e Tv</string>
     <string name="nav_fav">Preferiti</string>
     <string name="nav_movies">Film</string>
     <string name="nav_random">Casuale</string>
@@ -29,4 +29,9 @@
     <string name="War">Guerra</string>
     <string name="error_no_overview">Nessuna descrizione disponibile</string>
     <string name="genres">Generi</string>
+    <string name="from">Da</string>
+    <string name="to">A</string>
+    <string name="range">Intervallo</string>
+    <string name="Actor_name">Nome attore</string>
+    <string name="Actor_search">Ricerca Attore</string>
 </resources>

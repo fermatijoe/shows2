@@ -1,8 +1,10 @@
 package com.dcs.shows;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -94,10 +96,19 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.dcs.shows", Context.MODE_PRIVATE);
+        boolean isPromoUser = prefs.getBoolean("appGratis_key", false);
+        if(!isPromoUser) {
+            /*
+            MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
+            AdView mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+            */
+        }
+
+
 
 
     }
@@ -133,6 +144,8 @@ public class MainActivity extends AppCompatActivity
             launchRandomFragment();
         } else if (id == R.id.nav_coming){
             launchListFragment(LAUNCH_COMING_SOON);
+        } else if (id == R.id.nav_search){
+            launchSuggestionFragment();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,8 +172,8 @@ public class MainActivity extends AppCompatActivity
     private void launchListFragment(int scope){
 
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-        Fragment newDetail = ListFragment.newInstance(scope);
+        Log.v(LOG_TAG, "launching listF with scope: " + scope);
+        Fragment newDetail = ListFragment.newInstance(scope, "");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail, "LIST_F_TAG")
                 .commit();
@@ -173,6 +186,24 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, newDetail)
                 .addToBackStack("random")
                 .commit();
+    }
+    private void launchSuggestionFragment(){
+        getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        Fragment newDetail = AdvancedSearchFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, newDetail)
+                .addToBackStack("suggestion")
+                .commit();
+
+        /*
+        Fragment newDetail = AdvancedMovieFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, newDetail)
+                .addToBackStack("suggestion")
+                .commit();
+
+        */
     }
 
 
@@ -201,6 +232,10 @@ public class MainActivity extends AppCompatActivity
                 Log.v(LOG_TAG, "hiding ads");
                 AdView adView = (AdView) findViewById(R.id.adView);
                 adView.setVisibility(View.GONE);
+
+                SharedPreferences prefs = this.getSharedPreferences(
+                        "com.dcs.shows", Context.MODE_PRIVATE);
+                prefs.edit().putBoolean("appGratis_key", true).apply();
             }
         }
 

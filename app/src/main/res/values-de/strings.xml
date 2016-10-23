@@ -29,4 +29,9 @@
     <string name="War">Krieg</string>
     <string name="error_no_overview">Keine Beschreibung verfügbar</string>
     <string name="genres">Genres</string>
+    <string name="from">Von</string>
+    <string name="to">Nach</string>
+    <string name="range">Intervall</string>
+    <string name="Actor_name">Schauspieler Name</string>
+    <string name="Actor_search">Schauspieler suchen</string>
 </resources>

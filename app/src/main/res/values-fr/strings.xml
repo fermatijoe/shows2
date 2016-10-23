@@ -29,4 +29,9 @@
     <string name="War">Guerre</string>
     <string name="error_no_overview">Pas de description disponible</string>
     <string name="genres">Genres</string>
+    <string name="from">De</string>
+    <string name="to">À</string>
+    <string name="range">Intervalle</string>
+    <string name="Actor_name">Nom Acteur</string>
+    <string name="Actor_search">Recherche Acteur</string>
 </resources>

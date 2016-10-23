@@ -39,5 +39,11 @@
     <string name="Thriller">Thriller</string>
     <string name="War">War</string>
 
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="range">Year range</string>
+
+    <string name="Actor_search">Actor search</string>
+    <string name="Actor_name">Actor name</string>
 
 </resources>

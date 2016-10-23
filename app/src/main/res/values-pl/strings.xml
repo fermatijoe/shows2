@@ -29,4 +29,9 @@
     <string name="War">Wojna</string>
     <string name="error_no_overview">Brak dostępnego opisu</string>
     <string name="genres">Gatunki</string>
+    <string name="from">Od</string>
+    <string name="to">Do</string>
+    <string name="range">Interwał</string>
+    <string name="Actor_name">Nazwa Aktor</string>
+    <string name="Actor_search">Aktor wyszukiwania</string>
 </resources>

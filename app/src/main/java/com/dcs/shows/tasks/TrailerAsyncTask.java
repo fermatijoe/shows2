@@ -25,16 +25,24 @@ public class TrailerAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject trailerJson = new JSONObject(jsonStr);
         JSONArray trailerArray = trailerJson.getJSONArray("results");
 
-        JSONObject trailer = trailerArray.getJSONObject(0);
-        if (trailer.getString("site").contentEquals("YouTube")) {
-            //return trailer
-            String url = trailer.getString("key");
-            return url;
-        }else{
-            return null;
+        if(trailerArray.length() > 0){
+            JSONObject trailer = trailerArray.getJSONObject(0);
+            if (trailer.getString("site").contentEquals("YouTube")) {
+                //return trailer
+                String url = trailer.getString("key");
+                return url;
+            }
+        } else{
+            return "no_locale_trailer";
         }
+        return null;
     }
 
+    /*
+    params 0 is id
+    params 1 is scope
+    params 2 is language
+     */
     @Override
     protected String doInBackground(String... params) {
 
@@ -54,8 +62,10 @@ public class TrailerAsyncTask extends AsyncTask<String, Void, String> {
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(API_KEY_PARAM, QueryUtils.API_KEY)
+                    .appendQueryParameter("language", params[2])
                     .build();
 
+            Log.v(LOG_TAG, "Trailer api url: " + builtUri.toString());
             URL url = new URL(builtUri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
