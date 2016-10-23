@@ -4,7 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CrewMember {
-    private String character, name, image, role, job, personId, IMDBId, birthDay, biography;
+    //in role there will be stored the "KNOWN FOR" movies. This is bad and only acceptable
+    //to avoid erasing existing databases (i don't know how to migrate)
+    private String character, name, image, role, job, personId, IMDBId, birthDay, biography, knownFor;
 
     public CrewMember(){}
 
@@ -36,6 +38,23 @@ public class CrewMember {
         this.IMDBId = person.getString("imdb_id");
         this.birthDay = person.getString("birthday");
         this.biography = person.getString("biography");
+    }
+
+    //lite version which hold data to be shown in the Advanced Actor Search
+    public CrewMember(JSONObject person, boolean lightVersion) throws JSONException {
+        this.name = person.getString("name");
+        this.image = person.getString("profile_path");
+        this.personId = person.getString("id");
+    }
+
+    public String getKnownFor() {
+
+        return knownFor.replaceAll(", $", "").substring(4);
+
+    }
+
+    public void setKnownFor(String knownFor) {
+        this.knownFor = this.knownFor + knownFor;
     }
 
     public String getCharacter() {

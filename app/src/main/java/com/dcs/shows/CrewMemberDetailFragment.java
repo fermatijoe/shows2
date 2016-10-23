@@ -139,7 +139,9 @@ public class CrewMemberDetailFragment extends Fragment {
         protected void onPostExecute(String s) {
             if(s != null
                     && !s.equals("")
-                    && !s.equals("null")){
+                    && !s.equals("null")
+                    && getActivity() != null
+                    && isAdded()){
                 setHeader(s);
             }else {
                 //header image not available

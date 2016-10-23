@@ -15,7 +15,7 @@
         android:scaleType="centerCrop"/>
 
     <TextView
-        android:layout_marginTop="5dp"
+        android:paddingTop="5dp"
         android:id="@+id/actor_name"
         android:layout_width="100dp"
         android:layout_height="wrap_content"

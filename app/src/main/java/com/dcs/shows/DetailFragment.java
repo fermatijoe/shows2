@@ -35,6 +35,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.dcs.shows.tasks.ActorAsyncTask;
 import com.dcs.shows.tasks.CreditsAsyncTask;
 import com.dcs.shows.tasks.IMDBAsyncTask;
+import com.dcs.shows.tasks.ShowDetailAsyncTask;
+import com.dcs.shows.tasks.SimilarShowAsyncTask;
 import com.dcs.shows.utils.FavoriteUtils;
 import com.dcs.shows.tasks.TrailerAsyncTask;
 import com.google.gson.Gson;
@@ -62,9 +64,11 @@ public class DetailFragment extends Fragment {
     private boolean fabChecked = false;
     private String mScope, mLanguage;
     private static String mId;
-    private CardView mLoadMorecardView, mMoreCardView1, mMoreCardView2;
-    private RecyclerView mRecyclerView;
+    private CardView mLoadMorecardView, mMoreCardView1, mMoreCardView2, mMoreCardView3;
+
+    private RecyclerView mRecyclerView, mSimilarRecyclerView;
     private DetailFragment.PersonAdapter mPersonAdapter;
+    private SimilarAdapter mSimilarAdapter;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -116,6 +120,7 @@ public class DetailFragment extends Fragment {
         mLoadMorecardView = (CardView) rootView.findViewById(R.id.load_more_cardview);
         mMoreCardView1 = (CardView) rootView.findViewById(R.id.more_cardView_1);
         mMoreCardView2 = (CardView) rootView.findViewById(R.id.more_cardView_2);
+        mMoreCardView3 = (CardView) rootView.findViewById(R.id.more_cardView_3);
         mGenresTextView = (TextView) rootView.findViewById(R.id.genres_text_view);
 
         if(FavoriteUtils.checkIfThisIsFavorite(mShow)) {
@@ -244,7 +249,11 @@ public class DetailFragment extends Fragment {
 
                     //pass movie id to asynctask
                     String showId = Integer.valueOf(mShow.getShowId()).toString();
+                    String lang;
+                    lang = MainActivity.getSystemLanguage();
+                    lang = lang.replace("_", "-");
                     new Async1().execute(showId, mScope);
+                    new Async5().execute(mScope, showId, lang);
                 }else{
                     Toast.makeText(getActivity(), R.string.error_no_overview, Toast.LENGTH_SHORT).show();
                 }
@@ -261,6 +270,12 @@ public class DetailFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(mPersonAdapter);
+
+        mSimilarAdapter = new SimilarAdapter(new ArrayList<Show>());
+        mSimilarRecyclerView = (RecyclerView) rootView.findViewById(R.id.similar_recyclerView);
+        LinearLayoutManager llm2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mSimilarRecyclerView.setLayoutManager(llm2);
+        mSimilarRecyclerView.setAdapter(mSimilarAdapter);
 
 
         return rootView;
@@ -435,6 +450,98 @@ public class DetailFragment extends Fragment {
             }else{
                 launchBrowserForMovie(s);
             }
+        }
+    }
+
+    private class Async5 extends SimilarShowAsyncTask {
+        @Override
+        protected void onPostExecute(List<Show> shows) {
+            if(shows != null && !shows.isEmpty()){
+                mSimilarAdapter.addItemsToList(shows, false);
+                mSimilarAdapter.notifyDataSetChanged();
+                mMoreCardView3.setVisibility(View.VISIBLE);
+            }else {
+                Log.w(LOG_TAG, "No similar shows were found");
+            }
+        }
+    }
+
+    private class Async6 extends ShowDetailAsyncTask {
+        @Override
+        protected void onPostExecute(Show show) {
+            if(getActivity() != null){
+                Fragment newDetail = DetailFragment.newInstance(show);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container_nested, newDetail)
+                        .addToBackStack("detail")
+                        .commit();
+            }
+        }
+    }
+
+    private class SimilarHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public ImageView mPosterImageView;
+        public TextView mTitleTextView;
+
+        public SimilarHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            mPosterImageView = (ImageView) itemView.findViewById(R.id.grid_item_image);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.grid_item_title);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = SimilarHolder.this.getAdapterPosition();
+            String id = Integer.valueOf(mSimilarAdapter.getList().get(adapterPosition).getShowId())
+                    .toString();
+            new Async6().execute(mScope, id, mLanguage);
+        }
+    }
+
+    private class SimilarAdapter extends RecyclerView.Adapter<SimilarHolder> {
+        private List<Show> mShows;
+
+        public SimilarAdapter(List<Show> shows) {
+            mShows = shows;
+        }
+
+        public void add(Show show){
+            mShows.add(show);
+            notifyDataSetChanged();
+        }
+        public void addItemsToList(List<Show> newShows, boolean append){
+            if(append){
+                mShows.addAll(newShows);
+            }else {
+                mShows = newShows;
+            }
+            notifyDataSetChanged();
+        }
+
+        public List<Show> getList(){
+            return mShows;
+        }
+
+        @Override
+        public SimilarHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View rootView = inflater.inflate(R.layout.list_item_row_similar, parent, false);
+            return new SimilarHolder(rootView);
+        }
+        @Override
+        public void onBindViewHolder(SimilarHolder holder, int position) {
+            Show currentShow = mShows.get(position);
+
+            holder.mTitleTextView.setText(currentShow.getTitle());
+
+            String imageUrl = "http://image.tmdb.org/t/p/w130" + currentShow.getImage();
+            Glide.with(getActivity()).load(imageUrl).into(holder.mPosterImageView);
+
+        }
+        @Override
+        public int getItemCount() {
+            return mShows.size();
         }
     }
 

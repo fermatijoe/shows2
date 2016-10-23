@@ -8,8 +8,8 @@ android {
         applicationId "com.dcs.shows"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 20
-        versionName "2.5"
+        versionCode 21
+        versionName "2.6"
         buildConfigField("String", "TMDB_API_KEY", TMDB_API_KEY)
     }
     buildTypes {

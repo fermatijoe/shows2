@@ -166,7 +166,6 @@ public class QueryUtils {
 
                     movieModel.setGenres(genres);
 
-                    Log.v(LOG_TAG, "GENRES SAVED " + Arrays.toString(genres.toArray()));
                     results.add(movieModel);
                 }
             } else if(scope == 2){

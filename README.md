@@ -1,5 +1,5 @@
 # Movie and Tv suggestions 
-This app allows the user to browse a movie/tv catalog and see details for specific shows.
+This app allows the user to browse a movie/tv catalog and see details for specific crewMembers.
 
 Used libraries:
 
@@ -26,4 +26,4 @@ Also the google-services.json is not publicly available because it contains sens
 
 -----------
 ### Play store
-https://play.google.com/store/apps/details?id=com.dcs.shows
+https://play.google.com/store/apps/details?id=com.dcs.crewMembers
