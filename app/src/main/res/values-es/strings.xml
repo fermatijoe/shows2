@@ -13,7 +13,7 @@
     
     <string name="error_no_overview">No hay descripción disponible</string>
     
-    <string name="genres">Géneros</string>
+    <string name="genres">Género</string>
     <string name="Action">Acción</string>
     <string name="Adventure">Aventuras</string>
     <string name="Animation">Animación</string>
@@ -33,11 +33,12 @@
     <string name="TV_Movie">Telefilme</string>
     <string name="Thriller">Suspense</string>
     <string name="War">Guerra</string>
+    
     <string name="from">De</string>
     <string name="to">A</string>
     <string name="range">Intervalo</string>
-    <string name="Actor_name">Nombre del Actor</string>
-    <string name="Actor_search">Búsqueda Actor</string>
+    <string name="Actor_name">Nombre del actor</string>
+    <string name="Actor_search">Búsqueda de actor</string>
 
 
 </resources>
