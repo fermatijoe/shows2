@@ -48,5 +48,18 @@
     <string name="similar_shows">Similar</string>
     <string name="vote_average">Promedio de votos</string>
 
-
+    <string name="menu">Menú</string>
+    <string name="about">Sobre la app</string>
+    <string name="about_dialog_text">Traducción al español por parte de octarino \nEste producto use las API de TMDb pero no está endorsado ni certificado por TMDb.\nwww.themoviedb.org</string>
+    <string name="release_date">Fecha de estreno</string>
+    <string name="vote_average">Puntuación media</string>
+    <string name="similar_shows">Similares</string>
+    <string name="cast">Elenco</string>
+    <string name="advanced">Búsqueda avanzada</string>
+    <string name="search">Buscar</string>
+    
+    <string name="categories">Categorías</string>
+    
+    <string name="no_internet_connection">No hay conexión a internet</string>
+    
 </resources>
