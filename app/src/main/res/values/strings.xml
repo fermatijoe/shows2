@@ -55,5 +55,7 @@
     <string name="cast">Actors</string>
     <string name="advanced">Advanced search</string>
     <string name="search">Search</string>
+    
+    <string name="categories">Categories</string>
 
 </resources>
