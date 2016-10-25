@@ -38,15 +38,6 @@
     <string name="range">Intervalo</string>
     <string name="Actor_name">Nombre del Actor</string>
     <string name="Actor_search">Búsqueda Actor</string>
-    <string name="about">Informaciones</string>
-    <string name="about_dialog_text">La traducción al español fue proporcionado amablemente por: octarino Este producto utiliza la API TMDB pero no está avalado ni certificado por TMDB. www.themoviedb.org</string>
-    <string name="advanced">Búsqueda Avanzada</string>
-    <string name="cast">Actores</string>
-    <string name="menu">Menú</string>
-    <string name="release_date">Fecha de lanzamiento</string>
-    <string name="search">Buscar</string>
-    <string name="similar_shows">Similar</string>
-    <string name="vote_average">Promedio de votos</string>
 
 
 </resources>

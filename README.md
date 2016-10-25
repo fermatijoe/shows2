@@ -26,4 +26,4 @@ Also the google-services.json is not publicly available because it contains sens
 
 -----------
 ### Play store
-https://play.google.com/store/apps/details?id=com.dcs.crewMembers
+https://play.google.com/store/apps/details?id=com.dcs.shows
