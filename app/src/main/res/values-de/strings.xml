@@ -34,4 +34,13 @@
     <string name="range">Intervall</string>
     <string name="Actor_name">Schauspieler Name</string>
     <string name="Actor_search">Schauspieler suchen</string>
+    <string name="about">Informationen</string>
+    <string name="about_dialog_text">Die spanische Übersetzung wurde uns freundlicherweise zur Verfügung gestellt von: octarino Dieses Produkt ist das TMDb API verwendet, wird aber nicht von TMDb gebilligt oder. www.themoviedb.org</string>
+    <string name="advanced">Erweiterte Suche</string>
+    <string name="cast">Schauspieler</string>
+    <string name="menu">Menü</string>
+    <string name="release_date">Veröffentlichungsdatum</string>
+    <string name="search">Suche</string>
+    <string name="similar_shows">Ähnlich</string>
+    <string name="vote_average">Vote Durchschnitt</string>
 </resources>

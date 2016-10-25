@@ -46,4 +46,14 @@
     <string name="Actor_search">Actor search</string>
     <string name="Actor_name">Actor name</string>
 
+    <string name="menu">Menu</string>
+    <string name="about">About</string>
+    <string name="about_dialog_text">The Spanish translation was kindly provided by: octarino \nThis product uses the TMDb API but is not endorsed or certified by TMDb.\nwww.themoviedb.org</string>
+    <string name="release_date">Release date</string>
+    <string name="vote_average">Vote average</string>
+    <string name="similar_shows">Similar Shows</string>
+    <string name="cast">Actors</string>
+    <string name="advanced">Advanced search</string>
+    <string name="search">Search</string>
+
 </resources>

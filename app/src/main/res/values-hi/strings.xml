@@ -34,4 +34,13 @@
     <string name="range">मध्यान्तर</string>
     <string name="Actor_name">अभिनेता नाम</string>
     <string name="Actor_search">अभिनेता खोजें</string>
+    <string name="about">जानकारी</string>
+    <string name="about_dialog_text">स्पेनिश अनुवाद कृपया द्वारा प्रदान किया गया था: octarino इस उत्पाद को TMDb एपीआई का उपयोग करता है, लेकिन समर्थन TMDb द्वारा प्रमाणित नहीं है। www.themoviedb.org</string>
+    <string name="advanced">उन्नत खोज</string>
+    <string name="cast">अभिनेता</string>
+    <string name="menu">मेन्यू</string>
+    <string name="release_date">रिलीज़ की तारीख</string>
+    <string name="search">खोज</string>
+    <string name="similar_shows">समान</string>
+    <string name="vote_average">वोट के औसत</string>
 </resources>

@@ -34,4 +34,13 @@
     <string name="range">فترة</string>
     <string name="Actor_name">اسم الفاعل</string>
     <string name="Actor_search">بحث الممثل</string>
+    <string name="about">المعلومات</string>
+    <string name="about_dialog_text">وقدمت الترجمة الإسبانية تفضلت: octarino هذا المنتج يستخدم API TMDb لكن ليست معتمدة أو مصدقة من TMDb. www.themoviedb.org</string>
+    <string name="advanced">بحث متقدم</string>
+    <string name="cast">الجهات الفاعلة</string>
+    <string name="menu">قائمة طعام</string>
+    <string name="release_date">تاريخ النشر</string>
+    <string name="search">بحث</string>
+    <string name="similar_shows">مماثل</string>
+    <string name="vote_average">متوسط ​​التصويت</string>
 </resources>

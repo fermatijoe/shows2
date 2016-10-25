@@ -34,4 +34,13 @@
     <string name="range">интервал</string>
     <string name="Actor_name">название Актер</string>
     <string name="Actor_search">поиск Актер</string>
+    <string name="about">Информация</string>
+    <string name="about_dialog_text">Испанский перевод был любезно предоставлен: octarino Этот продукт использует API TMDb, но не сертифицирован или одобрен TMDb. www.themoviedb.org</string>
+    <string name="advanced">Расширенный поиск</string>
+    <string name="cast">Актеры</string>
+    <string name="menu">Меню</string>
+    <string name="release_date">Дата выпуска</string>
+    <string name="search">Поиск</string>
+    <string name="similar_shows">Аналогичный</string>
+    <string name="vote_average">средняя оценка</string>
 </resources>

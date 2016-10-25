@@ -34,4 +34,13 @@
     <string name="range">Interwał</string>
     <string name="Actor_name">Nazwa Aktor</string>
     <string name="Actor_search">Aktor wyszukiwania</string>
+    <string name="about">Informacje</string>
+    <string name="about_dialog_text">Tłumaczenie Hiszpański został udostępniony dzięki uprzejmości: octarino produkt używa API TMDb ale nie jest zatwierdzony lub poświadczone przez TMDb. www.themoviedb.org</string>
+    <string name="advanced">Zaawansowane wyszukiwanie</string>
+    <string name="cast">Aktorzy</string>
+    <string name="menu">Menu</string>
+    <string name="release_date">Data wydania</string>
+    <string name="search">Szukanie</string>
+    <string name="similar_shows">Podobny</string>
+    <string name="vote_average">Srednia ocena</string>
 </resources>
