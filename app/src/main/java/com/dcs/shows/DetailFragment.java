@@ -604,7 +604,6 @@ public class DetailFragment extends Fragment {
 
             if(currentPerson.getImage() != null && !currentPerson.getImage().equals("null")) {
                 String imageUrl = "http://image.tmdb.org/t/p/w130" + currentPerson.getImage();
-                Log.v(LOG_TAG, "one guy image " + imageUrl);
                 Glide.with(getActivity()).load(imageUrl).into(holder.mImageView);
             }else {
                 holder.mImageView.setImageResource(R.drawable.ic_person_placeholder);

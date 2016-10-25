@@ -65,7 +65,6 @@ public class TrailerAsyncTask extends AsyncTask<String, Void, String> {
                     .appendQueryParameter("language", params[2])
                     .build();
 
-            Log.v(LOG_TAG, "Trailer api url: " + builtUri.toString());
             URL url = new URL(builtUri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();

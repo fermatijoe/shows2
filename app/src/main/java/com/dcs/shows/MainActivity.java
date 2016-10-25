@@ -22,21 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.batch.android.Batch;
-import com.batch.android.BatchUnlockListener;
-import com.batch.android.Feature;
-import com.batch.android.Offer;
-import com.batch.android.Resource;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.phenotype.Configuration;
 
 import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BatchUnlockListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public final static int LAUNCH_MOVIES = 1;
     public final static int LAUNCH_TV = 2;
@@ -96,18 +87,12 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        SharedPreferences prefs = this.getSharedPreferences(
-                "com.dcs.shows", Context.MODE_PRIVATE);
-        boolean isPromoUser = prefs.getBoolean("appGratis_key", false);
-        if(!isPromoUser) {
-            /*
-            MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
-            AdView mAdView = (AdView) findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-            */
-        }
-
+        /*
+           MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
+           AdView mAdView = (AdView) findViewById(R.id.adView);
+           AdRequest adRequest = new AdRequest.Builder().build();
+           mAdView.loadAd(adRequest);
+        */
 
 
 
@@ -211,65 +196,4 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Batch.Unlock.setUnlockListener(this);
-        Batch.onStart(this);
-    }
-
-    @Override
-    public void onRedeemAutomaticOffer(Offer offer)
-    {
-        for(Feature feature : offer.getFeatures())
-        {
-            String featureRef = feature.getReference();
-            String value = feature.getValue();
-
-            if(featureRef.equals("AD_FREE")){
-                Log.v(LOG_TAG, "hiding ads");
-                AdView adView = (AdView) findViewById(R.id.adView);
-                adView.setVisibility(View.GONE);
-
-                SharedPreferences prefs = this.getSharedPreferences(
-                        "com.dcs.shows", Context.MODE_PRIVATE);
-                prefs.edit().putBoolean("appGratis_key", true).apply();
-            }
-        }
-
-        Map<String, String> additionalParameters = offer.getOfferAdditionalParameters();
-        String rewardMessage = additionalParameters.get("reward_message");
-
-        // Build the Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(rewardMessage).setTitle("Congratulations!");
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
-    @Override
-    protected void onStop()
-    {
-        Batch.onStop(this);
-
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        Batch.onDestroy(this);
-
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent)
-    {
-        Batch.onNewIntent(this, intent);
-
-        super.onNewIntent(intent);
-    }
 }

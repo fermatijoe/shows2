@@ -21,9 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.batch.android.d.v.ac;
-import static com.batch.android.d.v.bn;
-
 /*
     returns a list of search results
     then full info about that actor are fetched with ActorAsyncTask
@@ -103,7 +100,6 @@ public class ActorSearchAsyncTask extends AsyncTask<String, Void, List<CrewMembe
                     .appendQueryParameter("query", params[0])
                     .build();
             URL url = new URL(builtUri.toString());
-            Log.v(LOG_TAG, "built url: " + url);
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

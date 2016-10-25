@@ -98,7 +98,11 @@ public class ListFragment extends Fragment{
         mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(glm) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                anotherOne(page, mScope, mCurrentSortPreference, false);
+                if(totalItemsCount >= 12){
+                    anotherOne(page, mScope, mCurrentSortPreference, false);
+                }
+
+                Log.v(LOG_TAG, "onloadmore called, totalItemsCount: " + totalItemsCount);
             }
         });
 
@@ -177,6 +181,7 @@ public class ListFragment extends Fragment{
 
     private void anotherOne(int currPage, int scope, String sort, boolean o){
         if(mBypassUrl != null && mBypassUrl.length() > 0){
+            Log.v(LOG_TAG, "Onloadmore with bypass url called");
             (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
                     Integer.valueOf(mScope).toString(), mCurrentSortPreference, "false", mBypassUrl);
         }else {

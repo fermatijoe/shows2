@@ -84,7 +84,7 @@ public class SimilarShowAsyncTask extends AsyncTask<String, Void, List<Show>> {
                     .appendQueryParameter("language", params[2])
                     .build();
             URL url = new URL(builtUri.toString());
-            Log.v(LOG_TAG, "built url: " + url);
+
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

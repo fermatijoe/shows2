@@ -135,6 +135,7 @@ public class QueryUtils {
      * about the first earthquake from the input earthquakeJSON string.
      */
     public static List<Show> extractFeatureFromJson(String earthquakeJSON, int scope) {
+        Log.v(LOG_TAG, "parsin  json into Show objects");
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(earthquakeJSON)) {
             return null;
@@ -144,6 +145,7 @@ public class QueryUtils {
         try {
             JSONObject root = new JSONObject(earthquakeJSON);
             JSONArray movieArray = root.getJSONArray("results");
+            Log.v(LOG_TAG, "movieArray length: " + movieArray.length());
 
             List<Show> results = new ArrayList<>();
 
@@ -157,8 +159,6 @@ public class QueryUtils {
                     GenreList gl = new GenreList();
                     gl.initGenreListMovie();
                     for (int n = 0; n<genreArray.length(); n++){
-
-
                         int genreId = genreArray.getInt(n);
                         String genreName = gl.getMovieGenreWithId(genreId);
                         genres.add(genreName);
@@ -189,7 +189,6 @@ public class QueryUtils {
 
                     movieModel.setGenres(genres);
 
-                    Log.v(LOG_TAG, "GENRES SAVED " + Arrays.toString(genres.toArray()));
                     results.add(movieModel);
                 }
 

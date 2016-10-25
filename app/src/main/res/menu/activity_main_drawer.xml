@@ -34,6 +34,16 @@
             android:id="@+id/nav_search"
             android:title="@string/advanced"
             android:icon="@drawable/ic_lens_black"/>
+        <item
+            android:id="@+id/footer_spacer_1"
+            android:checkable="false"
+            android:enabled="false"
+            android:title="" />
+        <item
+            android:id="@+id/footer_spacer_2"
+            android:checkable="false"
+            android:enabled="false"
+            android:title="" />
     </group>
 
 
