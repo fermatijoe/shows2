@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Locale;
 import java.util.Map;
@@ -44,11 +49,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,41 +72,43 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         launchListFragment(LAUNCH_MOVIES);
 
+        //show ads if user did opt-in
+        if(adsEnabledPref()){
+            showAds();
+        }
 
-        getSupportFragmentManager().addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                    ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("LIST_F_TAG");
-                    if (listFragment != null) {
-                        listFragment.resetToolbar();
-                    }
-                }
-            }
-        });
+    }
 
+    private boolean adsEnabledPref(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showAds = preferences.getBoolean("checkbox_pref_adshow", false);
+        return showAds;
+    }
 
-        /*
-           MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
-           AdView mAdView = (AdView) findViewById(R.id.adView);
-           AdRequest adRequest = new AdRequest.Builder().build();
-           mAdView.loadAd(adRequest);
-        */
-
-
-
+    private void showAds(){
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public static String getSystemLanguage(){
-        return Locale.getDefault().toString();
+        String locale = Locale.getDefault().toString();
+        locale = locale.replace("_", "-");
+        return locale;
     }
-
 
     @Override
     public void onBackPressed() {
+        ListFragment listFragment = (ListFragment) getSupportFragmentManager()
+                .findFragmentByTag("LIST_F_TAG");
+        if (listFragment != null) {
+            Log.v("backstack", "resetting toolbar");
+            listFragment.resetToolbar();
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -113,6 +117,22 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                launchSettingsFragment();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -140,8 +160,8 @@ public class MainActivity extends AppCompatActivity
 
     private void showAboutDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("About this app");
-        alertDialog.setMessage(this.getResources().getString(R.string.about_dialog_text));
+        alertDialog.setContentView(R.layout.dialog_about);
+        alertDialog.setTitle(this.getResources().getString(R.string.about));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -154,9 +174,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void launchListFragment(int scope){
-
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        Log.v(LOG_TAG, "launching listF with scope: " + scope);
         Fragment newDetail = ListFragment.newInstance(scope, "");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail, "LIST_F_TAG")
@@ -164,7 +182,6 @@ public class MainActivity extends AppCompatActivity
     }
     private void launchRandomFragment(){
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
         Fragment newDetail = RandomFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)
@@ -173,23 +190,17 @@ public class MainActivity extends AppCompatActivity
     }
     private void launchSuggestionFragment(){
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
         Fragment newDetail = AdvancedSearchFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newDetail)
                 .addToBackStack("suggestion")
                 .commit();
-
-        /*
-        Fragment newDetail = AdvancedMovieFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, newDetail)
-                .addToBackStack("suggestion")
-                .commit();
-
-        */
     }
 
+    private void launchSettingsFragment(){
+        Intent i = new Intent(this, Preferences.class);
+        startActivity(i);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

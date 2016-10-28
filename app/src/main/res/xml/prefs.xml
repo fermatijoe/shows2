@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General">
+        <CheckBoxPreference
+            android:key="checkbox_pref_adshow"
+            android:title="Show ADs"
+            android:summary="Show a banner to support the developer"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

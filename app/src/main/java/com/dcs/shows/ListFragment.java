@@ -192,14 +192,18 @@ public class ListFragment extends Fragment{
     }
 
     public void resetToolbar(){
-        //reset title
-        resetTitle();
+        try {
+            //reset title
+            resetTitle();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
         //and toolbar color
         resetColor();
     }
 
-    private void resetTitle(){
+    private void resetTitle() throws  NullPointerException{
         switch (mScope){
             case 1:
                 getActivity().setTitle(R.string.nav_movies);

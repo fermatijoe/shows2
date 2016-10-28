@@ -8,6 +8,7 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:title="Search"/>
     <group
+        android:id="@+id/overflow_g1"
         android:checkableBehavior="single">
         <item
             android:id="@+id/action_sort_popular"
@@ -18,5 +19,12 @@
             android:title="@string/sort_top"
             app:showAsAction="never"/>
 
+    </group>
+    <group
+        android:id="@+id/overflow_g2">
+        <item
+            android:id="@+id/action_settings"
+            android:title="Settings"
+            app:showAsAction="never"/>
     </group>
 </menu>
