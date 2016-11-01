@@ -173,9 +173,9 @@ public class CrewMemberDetailFragment extends Fragment {
 
     private void launchDetailFragment(Show s){
         Log.v(LOG_TAG, "showId passed to DetailFragment: " + s.getShowId());
-        Fragment newDetail = DetailFragment.newInstance(s);
+        Fragment newDetail = DetailTabFragment.newInstance(s);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, newDetail)
+                .add(R.id.container_nested, newDetail)
                 .addToBackStack("detail")
                 .commit();
     }

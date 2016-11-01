@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="8dp">
+
+        <LinearLayout
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:paddingTop="5dp"
+                android:id="@+id/review_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="7"
+                tools:text="John Vitoson"/>
+
+            <TextView
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
+                android:id="@+id/review_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="7"
+                android:ellipsize="end"
+                tools:text="the review text. I liek this movie because it has bitches in. Just like my life.(im coool)"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+</android.support.v7.widget.CardView>

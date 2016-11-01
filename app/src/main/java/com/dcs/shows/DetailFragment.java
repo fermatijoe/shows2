@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -49,6 +50,7 @@ import java.util.List;
 
 import static com.dcs.shows.R.id.cast_recyclerView;
 
+@Deprecated
 public class DetailFragment extends Fragment {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
@@ -69,6 +71,8 @@ public class DetailFragment extends Fragment {
     private RecyclerView mRecyclerView, mSimilarRecyclerView;
     private DetailFragment.PersonAdapter mPersonAdapter;
     private SimilarAdapter mSimilarAdapter;
+
+    private TabLayout mTabLayout;
 
 
     public static DetailFragment newInstance(Show json) {
@@ -94,8 +98,9 @@ public class DetailFragment extends Fragment {
         mScope = mShow.getScope();
         mLanguage = MainActivity.getSystemLanguage();
         mLanguage = mLanguage.replace("_", "-");
-        getActivity().setTitle(mShow.getTitle());
         mId = Integer.valueOf(mShow.getShowId()).toString();
+        mTabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mShow.getTitle());
     }
 
 
@@ -184,6 +189,8 @@ public class DetailFragment extends Fragment {
                                 public void onGenerated(Palette p) {
                                     if(p != null && p.getDarkVibrantSwatch() != null){
                                         int darkVibrantSwatch = p.getDarkVibrantSwatch().getRgb();
+
+                                        mTabLayout.setBackgroundColor(darkVibrantSwatch);
 
                                         setTrailerFABColor(darkVibrantSwatch);
 
@@ -427,7 +434,7 @@ public class DetailFragment extends Fragment {
     private class Async3 extends TrailerAsyncTask {
         @Override
         protected void onPostExecute(String s) {
-            if (s == null) {
+            if (s == null && getActivity() != null) {
                 Toast.makeText(getActivity(), "No trailers found", Toast.LENGTH_SHORT).show();
             }else {
                 if (s.equals("no_locale_trailer")){
@@ -445,7 +452,7 @@ public class DetailFragment extends Fragment {
     private class Async4 extends IMDBAsyncTask {
         @Override
         protected void onPostExecute(String s) {
-            if (s == null) {
+            if (s == null && getActivity() != null) {
                 Toast.makeText(getActivity(), "No IMDB page available", Toast.LENGTH_SHORT).show();
             }else{
                 launchBrowserForMovie(s);

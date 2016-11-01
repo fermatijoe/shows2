@@ -78,7 +78,6 @@ public class ListFragment extends Fragment{
         mBypassUrl = getArguments().getString(ARG_URL);
         setHasOptionsMenu(true);
         mLanguage = MainActivity.getSystemLanguage();
-        mLanguage = mLanguage.replace("_", "-");
     }
 
 
@@ -86,8 +85,6 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-
-
 
         mShowAdapter = new ShowAdapter(new ArrayList<Show>());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -101,8 +98,6 @@ public class ListFragment extends Fragment{
                 if(totalItemsCount >= 12){
                     anotherOne(page, mScope, mCurrentSortPreference, false);
                 }
-
-                Log.v(LOG_TAG, "onloadmore called, totalItemsCount: " + totalItemsCount);
             }
         });
 
@@ -181,7 +176,6 @@ public class ListFragment extends Fragment{
 
     private void anotherOne(int currPage, int scope, String sort, boolean o){
         if(mBypassUrl != null && mBypassUrl.length() > 0){
-            Log.v(LOG_TAG, "Onloadmore with bypass url called");
             (new FetchMoviesTask()).execute(Integer.valueOf(currPage).toString(),
                     Integer.valueOf(mScope).toString(), mCurrentSortPreference, "false", mBypassUrl);
         }else {
@@ -396,7 +390,15 @@ public class ListFragment extends Fragment{
         @Override
         protected void onPostExecute(Show show) {
             if(getActivity() != null){
+
+                /*
                 Fragment newDetail = DetailFragment.newInstance(show);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container_nested, newDetail)
+                        .addToBackStack("detail")
+                        .commit();
+                */
+                Fragment newDetail = DetailTabFragment.newInstance(show);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .add(R.id.container_nested, newDetail)
                         .addToBackStack("detail")

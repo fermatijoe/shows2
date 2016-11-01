@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,9 +21,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -30,6 +37,8 @@ import com.google.android.gms.ads.MobileAds;
 
 import java.util.Locale;
 import java.util.Map;
+
+import static com.dcs.shows.App.getContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -51,6 +60,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,11 +84,19 @@ public class MainActivity extends AppCompatActivity
 
         launchListFragment(LAUNCH_MOVIES);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //show ads if user did opt-in
         if(adsEnabledPref()){
             showAds();
+        }else {
+            AdView adView = (AdView) findViewById(R.id.adView);
+            adView.setVisibility(View.GONE);
         }
-
     }
 
     private boolean adsEnabledPref(){
@@ -89,9 +107,10 @@ public class MainActivity extends AppCompatActivity
 
     private void showAds(){
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-9909155562202230~4464471706");
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView adView = (AdView) findViewById(R.id.adView);
+        adView.setVisibility(View.VISIBLE);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 
     public static String getSystemLanguage(){
@@ -105,7 +124,6 @@ public class MainActivity extends AppCompatActivity
         ListFragment listFragment = (ListFragment) getSupportFragmentManager()
                 .findFragmentByTag("LIST_F_TAG");
         if (listFragment != null) {
-            Log.v("backstack", "resetting toolbar");
             listFragment.resetToolbar();
         }
 
@@ -153,14 +171,31 @@ public class MainActivity extends AppCompatActivity
             launchSuggestionFragment();
         }
 
+        resetColor();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private void resetColor(){
+        if(getSupportActionBar() != null){
+            getSupportActionBar()
+                    .setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(),
+                            R.color.colorPrimary)));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+    }
+
     private void showAboutDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setContentView(R.layout.dialog_about);
+        alertDialog.setMessage(this.getResources().getString(R.string.about_dialog_text));
         alertDialog.setTitle(this.getResources().getString(R.string.about));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
@@ -174,6 +209,17 @@ public class MainActivity extends AppCompatActivity
 
 
     private void launchListFragment(int scope){
+        switch (scope){
+            case LAUNCH_MOVIES:
+                setTitle(this.getResources().getString(R.string.nav_movies));
+                break;
+            case LAUNCH_TV:
+                setTitle(this.getResources().getString(R.string.nav_tv));
+                break;
+            case LAUNCH_FAV:
+                setTitle(this.getResources().getString(R.string.nav_fav));
+                break;
+        }
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment newDetail = ListFragment.newInstance(scope, "");
         getSupportFragmentManager().beginTransaction()
@@ -181,6 +227,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
     private void launchRandomFragment(){
+        setTitle(this.getResources().getString(R.string.nav_random));
         getSupportFragmentManager().popBackStack ("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment newDetail = RandomFragment.newInstance();
         getSupportFragmentManager().beginTransaction()

@@ -182,10 +182,10 @@ public class SearchFragment extends Fragment {
         public void onClick(View view) {
             int itemPosition = mRecyclerView.indexOfChild(view);
 
-            Fragment newDetail = DetailFragment.newInstance(mShowAdapter.getList().get(itemPosition));
+            Fragment newDetail = DetailTabFragment.newInstance(mShowAdapter.getList().get(itemPosition));
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_nested, newDetail)
-                    .addToBackStack(null)
+                    .addToBackStack("detail")
                     .commit();
         }
     }

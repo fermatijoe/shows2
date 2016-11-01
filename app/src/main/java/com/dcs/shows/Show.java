@@ -64,6 +64,13 @@ public class Show extends SugarRecord {
         this.scope = "tv";
     }
 
+    //reviews constructor
+    public Show(JSONObject movie, String javaisshit, int andthisis, boolean horribletoread) throws JSONException {
+        this.title = movie.getString("author");
+        this.overview = movie.getString("content");
+        this.scope = "movie";
+    }
+
 
 
     public List<String> getGenres() {

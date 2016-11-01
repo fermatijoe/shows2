@@ -83,10 +83,19 @@ public class RandomFragment extends Fragment {
 
     private void launchDetail(Show s){
         mProgressBar.setVisibility(View.GONE);
+        /*
         Fragment newDetail = DetailFragment.newInstance(s);
         if(getActivity() != null && isAdded()){
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container_nested, newDetail) // add to back stack?
+                    .commit();
+        }
+        */
+        Fragment newDetail = DetailTabFragment.newInstance(s);
+        if(getActivity() != null && isAdded()) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container_nested, newDetail)
+                    .addToBackStack("detail")
                     .commit();
         }
 

@@ -16,40 +16,62 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class AdvancedSearchFragment extends Fragment {
+import com.dcs.shows.tasks.ReviewAsyncTask;
+import com.google.gson.Gson;
 
-    public AdvancedSearchFragment(){}
+import java.util.List;
 
-    public static AdvancedSearchFragment newInstance(){
+import static com.dcs.shows.DetailFragment.SHOW_TO_LOAD;
+import static com.dcs.shows.R.id.tabLayout;
+
+/*
+    this is launched after clicking on a poster image
+    this handles tabs between reviews/detail page/similar movies
+    and any other tab that might be related
+ */
+public class DetailTabFragment extends Fragment {
+    // TODO: 29/10/2016 refactor every DetailFrag launch to this new frag instead
+
+    private Show mShow;
+
+    public DetailTabFragment(){}
+
+    public static DetailTabFragment newInstance(Show json){
+        String serializedShow = new Gson().toJson(json);
         Bundle args = new Bundle();
-        AdvancedSearchFragment fragment = new AdvancedSearchFragment();
+        args.putString(DetailFragment.SHOW_TO_LOAD, serializedShow);
+        DetailTabFragment fragment = new DetailTabFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        String serializedShow = getArguments().getString(DetailFragment.SHOW_TO_LOAD);
+        mShow = (new Gson()).fromJson(serializedShow, Show.class);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_tablayout, container, false);
 
-        if(getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null){
-            ((AppCompatActivity) getActivity())
-                    .getSupportActionBar()
-                    .setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimary)));
+        if(mShow.getScope().equals("tv")){
+            //no reviews for tv shows, just launch regular detialf
+            Fragment newDetail = DetailFragment.newInstance(mShow);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container_nested, newDetail)
+                    .addToBackStack("detail")
+                    .commit();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            Window window = getActivity().getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
 
         TabLayout tabLayout = (TabLayout) inflatedView.findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText(getActivity().getResources().getString(R.string.nav_movies)
-                + "/"
-                + getActivity().getResources().getString(R.string.nav_tv)));
-        tabLayout.addTab(tabLayout.newTab().setText(getActivity().getResources().getString(R.string.Actor_search)));
+        tabLayout.addTab(tabLayout.newTab().setText(getActivity().getResources().getString(R.string.Details)));
+        tabLayout.addTab(tabLayout.newTab().setText(getActivity().getResources().getString(R.string.Reviews)));
         final ViewPager viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
 
         viewPager.setAdapter(new PagerAdapter(getFragmentManager(), tabLayout.getTabCount()));
@@ -74,6 +96,8 @@ public class AdvancedSearchFragment extends Fragment {
         return inflatedView;
     }
 
+
+
     private class PagerAdapter extends FragmentStatePagerAdapter {
         int mNumOfTabs;
 
@@ -87,11 +111,11 @@ public class AdvancedSearchFragment extends Fragment {
 
             switch (position) {
                 case 0:
-                    Fragment sF = AdvancedMovieFragment.newInstance();
-                    return sF;
+                    Fragment detailFragment = DetailFragment.newInstance(mShow);
+                    return detailFragment;
                 case 1:
-                    Fragment sff = AdvancedPersonFragment.newInstance();
-                    return sff;
+                    Fragment reviewFragment = ReviewFragment.newInstance(mShow);
+                    return reviewFragment;
                 default:
                     return null;
             }
